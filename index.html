@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Рынок труда 2026 — что изменилось / Сборка</title>
-<meta name="description" content="Лекционный лонгрид: как развернулся рынок труда к весне 2026, как AI пересобрал найм с обеих сторон, и что делать соискателю. Материал для встречи в Сборке." />
+<title>Рынок труда 2026 — лекция / Сборка</title>
+<meta name="description" content="Лекция-презентация: рынок труда развернулся к работодателю, AI пересобрал найм, что делать соискателю весной 2026." />
 <meta property="og:title" content="Рынок труда 2026: правила игры изменились" />
-<meta property="og:description" content="Лонгрид-лекция: рынок развернулся к работодателю, поиск работы стал bot vs bot, junior-позиции вымываются, ghost jobs стали нормой. Что делать." />
+<meta property="og:description" content="Презентация-лекция Tim Zinin для Сборки. AI в найме, ghost jobs, джуны, что делать." />
 <meta property="og:type" content="article" />
 <meta name="theme-color" content="#f4eee0" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,110 +28,128 @@
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html,body{height:100%;overflow:hidden}
   body{font-size:17px;line-height:1.55}
-  a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+  a{color:inherit;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
   a:hover{color:var(--accent)}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
-  .nav{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--ink);padding:14px 0;font-size:14px;font-weight:500}
-  .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .nav .brand{font-family:"Fraunces",serif;font-weight:900;letter-spacing:-.01em;font-size:20px}
-  .nav .brand b{color:var(--accent)}
-  .nav .links{display:flex;gap:18px;flex-wrap:wrap}
-  .nav .links a{text-decoration:none;color:var(--mute)}
-  .nav .links a:hover{color:var(--ink)}
-  @media(max-width:780px){.nav .links{display:none}}
+  strong{font-weight:700}
+  em{font-style:italic;color:var(--mute)}
 
-  /* HERO */
-  .hero{position:relative;padding:80px 0 64px;border-bottom:1px solid var(--ink);overflow:hidden}
-  .hero::before{
-    content:"";position:absolute;inset:0;
+  /* DECK + SLIDES */
+  .deck{position:fixed;inset:0;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow:auto;padding:64px 28px 110px;opacity:0;visibility:hidden;transition:opacity .35s ease;background:var(--bg)}
+  .slide.active{opacity:1;visibility:visible}
+  .slide.alt{background:var(--paper)}
+  .slide .wrap{max-width:var(--max);margin:0 auto;width:100%}
+
+  /* halftone overlay across deck */
+  .deck::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:radial-gradient(var(--ink) 1px,transparent 1.4px);
+    background-size:6px 6px;opacity:.05;mix-blend-mode:multiply;
+  }
+  .slide > *{position:relative;z-index:2}
+
+  /* TOP CHROME */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);background:linear-gradient(var(--bg),rgba(244,238,224,.85) 70%,transparent);pointer-events:none}
+  .topbar .brand{font-family:"Fraunces",serif;font-weight:900;letter-spacing:-.01em;font-size:16px;text-transform:none;color:var(--ink)}
+  .topbar .brand b{color:var(--accent)}
+  .topbar .ix{display:flex;align-items:center;gap:14px;pointer-events:auto}
+  .topbar .ix a{text-decoration:none;color:var(--mute)}
+  .topbar .ix a:hover{color:var(--ink)}
+
+  /* PROGRESS BAR */
+  .progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:25;pointer-events:none}
+  .progress > i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s ease}
+
+  /* BOTTOM NAV */
+  .navbar{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:linear-gradient(transparent,rgba(244,238,224,.85) 30%,var(--bg))}
+  .navbtn{appearance:none;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:transform .15s ease,background .15s ease}
+  .navbtn:hover{background:var(--ink);color:var(--bg)}
+  .navbtn:disabled{opacity:.3;cursor:not-allowed;background:transparent;color:var(--mute)}
+  .navbtn:disabled:hover{background:transparent;color:var(--mute)}
+  .navbtn .ar{font-family:"Inter",sans-serif;font-size:18px;font-weight:600}
+  .counter{font-family:"Fraunces",serif;font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--ink);min-width:120px;text-align:center}
+  .counter .of{color:var(--mute);font-weight:500;font-size:16px;margin:0 4px}
+  .counter .total{color:var(--mute);font-weight:500}
+
+  /* DOTS / OVERVIEW button */
+  .overview-btn{appearance:none;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px;cursor:pointer}
+  .overview-btn:hover{background:var(--ink);color:var(--bg)}
+
+  /* OVERVIEW grid */
+  .overview{position:fixed;inset:0;background:var(--ink);color:var(--bg);z-index:50;overflow:auto;padding:80px 28px;display:none}
+  .overview.open{display:block}
+  .overview h2{font-family:"Fraunces",serif;font-weight:900;font-size:42px;margin:0 0 32px;color:var(--bg)}
+  .overview .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:var(--max);margin:0 auto}
+  .overview .ov{cursor:pointer;border:1.5px solid var(--bg);background:transparent;color:var(--bg);padding:18px;text-align:left;font-family:"Inter",sans-serif;display:flex;flex-direction:column;gap:8px;transition:background .15s,color .15s}
+  .overview .ov:hover{background:var(--bg);color:var(--ink)}
+  .overview .ov .nn{font-family:"Fraunces",serif;font-weight:900;font-size:26px;letter-spacing:-.02em;color:var(--accent-2)}
+  .overview .ov:hover .nn{color:var(--accent)}
+  .overview .ov .tt{font-size:13px;line-height:1.3;font-weight:500}
+  .overview .close{position:absolute;top:22px;right:22px;background:transparent;border:1.5px solid var(--bg);color:var(--bg);padding:8px 14px;cursor:pointer;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em}
+  @media(max-width:880px){.overview .grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* TYPOGRAPHY */
+  h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(40px,7vw,108px);line-height:.92;letter-spacing:-.025em;margin:0 0 24px;max-width:14ch}
+  h1 .strike{color:var(--accent);font-style:italic}
+  h1 .underline{box-shadow:inset 0 -0.18em 0 var(--accent-2)}
+  h2{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(30px,4.4vw,60px);line-height:1.02;letter-spacing:-.02em;margin:0 0 24px;max-width:22ch}
+  h3{font-family:"Fraunces",serif;font-weight:700;font-size:clamp(20px,2.2vw,28px);line-height:1.2;letter-spacing:-.015em;margin:28px 0 12px}
+  h4{font-family:"Inter",sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;margin:24px 0 10px;color:var(--mute)}
+  p{margin:0 0 14px;max-width:74ch}
+  ul,ol{margin:0 0 16px;padding-left:22px;max-width:78ch}
+  li{margin-bottom:8px}
+  .lede{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(20px,2.4vw,28px);line-height:1.35;max-width:34ch;color:var(--ink);margin:0 0 28px}
+
+  /* eyebrow tag */
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:18px}
+  .eyebrow .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .seclabel{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+  .seclabel b{color:var(--accent);font-weight:700}
+
+  /* COVER specifics */
+  .cover{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 174px)}
+  .cover::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
     background:
       radial-gradient(circle at 18% 12%, var(--accent-2) 0 12%, transparent 13%),
       radial-gradient(circle at 88% 22%, var(--accent) 0 9%, transparent 10%),
       radial-gradient(circle at 8% 88%, var(--accent-3) 0 7%, transparent 8%);
-    opacity:.18;pointer-events:none;
+    opacity:.18;z-index:1
   }
-  .hero::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background-image:radial-gradient(var(--ink) 1px,transparent 1.4px);
-    background-size:6px 6px;
-    opacity:.08;
-    mix-blend-mode:multiply;
-  }
-  .hero .wrap{position:relative;z-index:2}
-  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:24px}
-  .eyebrow .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
-  h1{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(42px,7.4vw,108px);line-height:.92;letter-spacing:-.025em;margin:0 0 26px;max-width:14ch}
-  h1 .strike{color:var(--accent);font-style:italic}
-  h1 .underline{box-shadow:inset 0 -0.18em 0 var(--accent-2)}
-  .lede{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(20px,2.4vw,28px);line-height:1.35;max-width:32ch;color:var(--ink);margin:0 0 36px}
-  .meta{display:flex;flex-wrap:wrap;gap:18px 28px;font-size:14px;color:var(--mute);font-family:"JetBrains Mono",monospace}
+  .cover .wrap{position:relative;z-index:2}
+  .meta{display:flex;flex-wrap:wrap;gap:14px 28px;font-size:14px;color:var(--mute);font-family:"JetBrains Mono",monospace;margin-top:24px}
   .meta b{color:var(--ink);font-weight:600}
 
-  /* STATS STRIP */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);background:var(--paper)}
-  .stats > div{padding:28px 22px;border-right:1px solid var(--ink)}
+  /* STAT STRIP */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--paper);margin:28px 0}
+  .stats > div{padding:24px 20px;border-right:1px solid var(--ink)}
   .stats > div:last-child{border-right:none}
-  .stats .num{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(36px,4.2vw,56px);line-height:1;letter-spacing:-.02em;color:var(--accent)}
+  .stats .num{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(32px,3.8vw,52px);line-height:1;letter-spacing:-.02em;color:var(--accent)}
   .stats .lbl{font-size:13px;color:var(--mute);margin-top:8px;line-height:1.35}
   @media(max-width:780px){
     .stats{grid-template-columns:repeat(2,1fr)}
     .stats > div{border-bottom:1px solid var(--ink)}
-    .stats > div:nth-child(2){border-right:none}
+    .stats > div:nth-child(2),.stats > div:nth-child(2n){border-right:none}
     .stats > div:nth-child(3),.stats > div:nth-child(4){border-bottom:none}
-    .stats > div:nth-child(2n){border-right:none}
   }
 
-  /* SECTIONS */
-  section{padding:80px 0;border-bottom:1px solid var(--ink)}
-  section:nth-of-type(odd){background:var(--paper)}
-  .seclabel{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
-  .seclabel b{color:var(--accent);font-weight:700}
-  h2{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(32px,4.6vw,64px);line-height:1;letter-spacing:-.02em;margin:0 0 24px;max-width:22ch}
-  h3{font-family:"Fraunces",serif;font-weight:700;font-size:clamp(22px,2.4vw,30px);line-height:1.2;letter-spacing:-.015em;margin:36px 0 14px}
-  h4{font-family:"Inter",sans-serif;font-weight:700;font-size:17px;letter-spacing:.02em;text-transform:uppercase;margin:28px 0 10px;color:var(--mute)}
-  p{margin:0 0 14px;max-width:72ch}
-  ul,ol{margin:0 0 16px;padding-left:22px;max-width:74ch}
-  li{margin-bottom:8px}
-  strong{font-weight:700;color:var(--ink)}
-  em{font-style:italic;color:var(--mute)}
-
-  /* TL;DR cards */
-  .tldr{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:24px}
-  .tldr .card{grid-column:span 4;border:1.5px solid var(--ink);background:var(--bg);padding:22px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px}
-  .tldr .card .n{font-family:"Fraunces",serif;font-weight:900;font-size:64px;line-height:.85;letter-spacing:-.04em;color:var(--accent)}
+  /* tldr cards */
+  .tldr{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:14px}
+  .tldr .card{grid-column:span 4;border:1.5px solid var(--ink);background:var(--bg);padding:20px;display:flex;flex-direction:column;gap:8px;min-height:200px}
+  .tldr .card .n{font-family:"Fraunces",serif;font-weight:900;font-size:54px;line-height:.85;letter-spacing:-.04em;color:var(--accent)}
   .tldr .card:nth-child(7n+2) .n{color:var(--accent-3)}
   .tldr .card:nth-child(7n+3) .n{color:var(--warn)}
   .tldr .card:nth-child(7n+4) .n{color:var(--good)}
   .tldr .card:nth-child(7n+5) .n{color:var(--accent-2);-webkit-text-stroke:1.5px var(--ink)}
   .tldr .card h4{margin:0;color:var(--ink);text-transform:none;font-size:18px;letter-spacing:-.005em;font-family:"Fraunces",serif;font-weight:700}
-  .tldr .card p{margin:0;font-size:15px;color:var(--mute);line-height:1.5;max-width:none}
+  .tldr .card p{margin:0;font-size:14.5px;color:var(--mute);line-height:1.45;max-width:none}
   @media(max-width:980px){.tldr .card{grid-column:span 6}}
   @media(max-width:620px){.tldr .card{grid-column:span 12}}
 
-  /* Two-col layout */
-  .two{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;margin-top:24px}
-  @media(max-width:880px){.two{grid-template-columns:1fr;gap:32px}}
-
-  /* Pull-quote */
-  .quote{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.6vw,30px);line-height:1.3;border-left:4px solid var(--accent);padding:6px 0 6px 22px;margin:24px 0;color:var(--ink);max-width:36ch}
-
-  /* Big number callout */
-  .bignum{display:flex;align-items:baseline;gap:18px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:28px 0;margin:24px 0}
-  .bignum .v{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(64px,9vw,128px);line-height:.85;letter-spacing:-.04em;color:var(--accent)}
-  .bignum .l{font-size:15px;color:var(--mute);max-width:36ch}
-
-  /* Tables */
-  .tablewrap{margin:24px 0;border:1.5px solid var(--ink);overflow:auto;background:var(--bg)}
-  table{width:100%;border-collapse:collapse;font-size:14.5px}
-  th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid #d8c8a4}
-  th{background:var(--ink);color:var(--bg);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:12px;border-bottom:none;position:sticky;top:0}
-  tbody tr:last-child td{border-bottom:none}
-  tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
-  td b{font-weight:700}
-
-  /* Stat list */
-  .statlist{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--ink);background:var(--bg);margin:24px 0}
+  /* Stat list grid */
+  .statlist{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--ink);background:var(--bg);margin:18px 0}
   .statlist > div{padding:22px 18px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
   .statlist > div:nth-child(3n){border-right:none}
   .statlist > div:nth-last-child(-n+3){border-bottom:none}
@@ -144,119 +162,150 @@
     .statlist > div{border-bottom:1px solid var(--ink) !important}
   }
 
+  /* two-col */
+  .two{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;margin-top:14px}
+  @media(max-width:880px){.two{grid-template-columns:1fr;gap:24px}}
+
+  /* quote */
+  .quote{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:clamp(20px,2.2vw,26px);line-height:1.3;border-left:4px solid var(--accent);padding:6px 0 6px 18px;margin:18px 0;color:var(--ink);max-width:36ch}
+  .quote .src{display:block;font-style:normal;font-size:13px;font-family:"JetBrains Mono",monospace;color:var(--mute);margin-top:8px;letter-spacing:.04em}
+
+  /* Big number */
+  .bignum{display:flex;align-items:baseline;gap:18px;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:24px 0;margin:18px 0}
+  .bignum .v{font-family:"Fraunces",serif;font-weight:900;font-size:clamp(64px,9vw,128px);line-height:.85;letter-spacing:-.04em;color:var(--accent)}
+  .bignum .l{font-size:15px;color:var(--mute);max-width:36ch}
+
+  /* Tables */
+  .tablewrap{margin:18px 0;border:1.5px solid var(--ink);overflow:auto;background:var(--bg);max-height:62vh}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:11px 13px;text-align:left;vertical-align:top;border-bottom:1px solid #d8c8a4}
+  th{background:var(--ink);color:var(--bg);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:12px;border-bottom:none;position:sticky;top:0}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
+
   /* Timeline */
-  .tl{margin:24px 0;border-top:1px solid var(--ink)}
-  .tl .row{display:grid;grid-template-columns:160px 1fr;gap:22px;padding:14px 0;border-bottom:1px solid #d8c8a4}
+  .tl{margin:14px 0;border-top:1px solid var(--ink)}
+  .tl .row{display:grid;grid-template-columns:160px 1fr;gap:22px;padding:13px 0;border-bottom:1px solid #d8c8a4}
   .tl .d{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.02em}
-  .tl .e{font-size:15px;line-height:1.45}
-  @media(max-width:680px){.tl .row{grid-template-columns:1fr;gap:4px;padding:12px 0}}
+  .tl .e{font-size:14.5px;line-height:1.45}
+  @media(max-width:680px){.tl .row{grid-template-columns:1fr;gap:4px;padding:10px 0}}
 
   /* Use case block */
-  .uc{border:1.5px solid var(--ink);background:var(--bg);padding:28px;margin:18px 0;position:relative}
-  .uc .uc-tag{display:inline-block;background:var(--ink);color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;margin-bottom:12px}
+  .uc{border:1.5px solid var(--ink);background:var(--bg);padding:24px;margin:14px 0}
+  .uc .uc-tag{display:inline-block;background:var(--ink);color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;margin-bottom:10px}
   .uc h3{margin-top:0}
-  .uc .prompt{background:#fff;border:1px solid var(--ink);padding:16px 18px;font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.55;color:var(--ink);margin:14px 0;white-space:pre-wrap}
+  .uc .prompt{background:#fff;border:1px solid var(--ink);padding:14px 16px;font-family:"JetBrains Mono",monospace;font-size:13px;line-height:1.55;color:var(--ink);margin:12px 0;white-space:pre-wrap}
 
   /* Channels ranked */
-  .ranked{counter-reset:rank;margin:20px 0;padding:0;list-style:none;max-width:none}
-  .ranked li{counter-increment:rank;display:grid;grid-template-columns:64px 1fr;gap:18px;padding:18px 0;border-top:1px solid #d8c8a4;align-items:start}
+  .ranked{counter-reset:rank;margin:14px 0;padding:0;list-style:none;max-width:none}
+  .ranked li{counter-increment:rank;display:grid;grid-template-columns:64px 1fr;gap:18px;padding:14px 0;border-top:1px solid #d8c8a4;align-items:start}
   .ranked li:last-child{border-bottom:1px solid #d8c8a4}
   .ranked li::before{content:counter(rank);font-family:"Fraunces",serif;font-weight:900;font-size:42px;line-height:.85;color:var(--accent);letter-spacing:-.04em}
   .ranked li:nth-child(1)::before{color:var(--good)}
   .ranked li:nth-child(2)::before{color:var(--accent-3)}
   .ranked li:nth-child(5)::before,.ranked li:nth-child(6)::before{color:var(--warn)}
-  .ranked .ttl{font-weight:700;font-size:16.5px;display:block}
+  .ranked .ttl{font-weight:700;font-size:16px;display:block}
   .ranked .nb{font-size:14px;color:var(--mute);display:block;margin-top:4px}
 
   /* Quick wins */
-  .qw{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:24px}
-  .qw .step{border:1.5px solid var(--ink);background:var(--bg);padding:20px;display:flex;flex-direction:column;gap:10px}
+  .qw{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:18px}
+  .qw .step{border:1.5px solid var(--ink);background:var(--bg);padding:18px;display:flex;flex-direction:column;gap:8px;min-height:200px}
   .qw .step .n{font-family:"Fraunces",serif;font-weight:900;font-size:48px;line-height:.85;color:var(--accent-2);-webkit-text-stroke:1.5px var(--ink)}
   .qw .step h4{margin:0;text-transform:none;font-family:"Fraunces",serif;font-size:17px;color:var(--ink);letter-spacing:-.005em}
-  .qw .step p{margin:0;font-size:14px;color:var(--mute);line-height:1.5}
+  .qw .step p{margin:0;font-size:14px;color:var(--mute);line-height:1.45}
   @media(max-width:980px){.qw{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:520px){.qw{grid-template-columns:1fr}}
 
   /* Risks */
-  .risk{border-left:4px solid var(--warn);padding:8px 0 8px 18px;margin:14px 0}
+  .risk{border-left:4px solid var(--warn);padding:6px 0 6px 16px;margin:12px 0;font-size:15px;line-height:1.5}
   .risk b{color:var(--warn)}
 
-  /* Footer */
-  footer{padding:60px 0 80px;background:var(--ink);color:var(--bg)}
-  footer a{color:var(--bg)}
-  footer h2{color:var(--bg)}
-  footer .meta{color:rgba(255,255,255,.55)}
-  footer .meta b{color:var(--bg)}
-
-  /* Sources */
-  .src{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 36px;margin-top:24px}
-  .src h4{margin:0 0 8px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.1em;font-size:13px}
-  .src ul{padding-left:18px;margin:0}
-  .src li{font-size:14px;line-height:1.5;color:rgba(255,255,255,.85);margin-bottom:6px}
-  .src a{word-break:break-word}
-  @media(max-width:780px){.src{grid-template-columns:1fr}}
-
-  /* Misc */
+  /* Pills */
   .pill{display:inline-block;background:var(--ink);color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:4px 10px;margin-right:6px}
   .pill.acc{background:var(--accent)}
   .pill.warn{background:var(--warn)}
   .pill.good{background:var(--good)}
-  hr{border:none;border-top:1px solid var(--ink);margin:36px 0;opacity:.4}
-  .anchor{position:relative;top:-70px;visibility:hidden}
+
+  /* Sources slide darker */
+  .slide.dark{background:var(--ink);color:var(--bg)}
+  .slide.dark h2{color:var(--bg)}
+  .slide.dark .seclabel{color:rgba(255,255,255,.55)}
+  .slide.dark .seclabel b{color:var(--accent-2)}
+  .slide.dark a{color:var(--bg)}
+  .slide.dark .meta{color:rgba(255,255,255,.55)}
+  .slide.dark .meta b{color:var(--bg)}
+  .src{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 36px;margin-top:18px}
+  .src h4{margin:0 0 8px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.1em;font-size:13px}
+  .src ul{padding-left:18px;margin:0}
+  .src li{font-size:14px;line-height:1.5;color:rgba(255,255,255,.85);margin-bottom:6px}
+  @media(max-width:780px){.src{grid-template-columns:1fr}}
+
+  /* Hint chip on cover */
+  .hint{display:inline-flex;gap:10px;align-items:center;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);border:1px dashed var(--mute);padding:8px 12px;margin-top:18px}
+  .hint kbd{font-family:"JetBrains Mono",monospace;font-weight:600;background:var(--ink);color:var(--bg);padding:3px 7px;border-radius:3px;font-size:11px;letter-spacing:.04em}
+
+  /* ensure room for fixed nav on small screens */
+  @media(max-width:620px){
+    .topbar .ix .label-hide{display:none}
+    .navbtn{padding:9px 14px;font-size:11px}
+    .counter{font-size:18px;min-width:90px}
+  }
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap">
-    <div class="brand">Рынок труда <b>2026</b></div>
-    <nav class="links" aria-label="Разделы">
-      <a href="#tldr">TL;DR</a>
-      <a href="#market">Рынок</a>
-      <a href="#ai">AI в найме</a>
-      <a href="#ghost">Ghost jobs</a>
-      <a href="#juniors">Джуны</a>
-      <a href="#skills">Скиллы</a>
-      <a href="#what-to-do">Что делать</a>
-      <a href="#tools">Инструменты</a>
-      <a href="#quickwins">Quick wins</a>
-    </nav>
+<div class="progress"><i id="prog"></i></div>
+
+<header class="topbar">
+  <div class="brand">Рынок труда <b>2026</b> · Сборка</div>
+  <div class="ix">
+    <button class="overview-btn" id="ov-open">Все слайды</button>
   </div>
 </header>
 
-<section class="hero">
+<main class="deck" id="deck">
+
+<!-- 01 COVER -->
+<section class="slide cover" data-title="Обложка">
   <div class="wrap">
-    <div class="eyebrow"><span class="dot"></span>Лекция / Сборка · 27 апреля 2026</div>
+    <div class="eyebrow"><span class="dot"></span>Лекция · 27 апреля 2026</div>
     <h1>Поиск работы <span class="strike">сломался</span><br/>и собирается <span class="underline">заново</span>.</h1>
-    <p class="lede">Рынок развернулся к работодателю. Найм стал bot vs bot. Junior-позиции вымываются. Ghost jobs стали нормой. Что с этим делать — материал лекции.</p>
+    <p class="lede">Рынок развернулся к работодателю. Найм стал bot vs bot. Junior-позиции вымываются. Ghost jobs стали нормой. Что с этим делать.</p>
     <div class="meta">
-      <div><b>Формат:</b> лонгрид-конспект</div>
-      <div><b>Чтение:</b> ≈ 35 минут</div>
+      <div><b>Формат:</b> презентация</div>
+      <div><b>Слайдов:</b> 22</div>
       <div><b>Источников:</b> 60+</div>
       <div><b>Автор:</b> Tim Zinin / <a href="https://sborka.work">Сборка</a></div>
     </div>
+    <div class="hint">Навигация: <kbd>←</kbd> <kbd>→</kbd> · <kbd>Space</kbd> · клик по стрелкам</div>
   </div>
 </section>
 
-<section style="padding:0;background:transparent;border-bottom:none">
-  <div class="stats">
-    <div><div class="num">9–10</div><div class="lbl">резюме на одну вакансию в РФ весной 2026 (было 3,1 в 2024)</div></div>
-    <div><div class="num">~80K</div><div class="lbl">уволенных в техе в Q1 2026, ~48% увольнений компании привязали к AI</div></div>
-    <div><div class="num">27,4%</div><div class="lbl">объявлений на LinkedIn в США — фейковые ghost jobs</div></div>
-    <div><div class="num">−13%</div><div class="lbl">занятость 22–25-летних в AI-exposed профессиях (Stanford)</div></div>
-  </div>
-</section>
-
-<!-- TLDR -->
-<section id="tldr"><span class="anchor"></span>
+<!-- 02 OPENING NUMBERS -->
+<section class="slide alt" data-title="Что произошло — цифры">
   <div class="wrap">
-    <div class="seclabel"><b>00</b> · TL;DR за 5 минут</div>
-    <h2>Семь главных сдвигов, которые пересобрали рынок труда</h2>
+    <div class="seclabel"><b>01</b> · Один взгляд на масштаб</div>
+    <h2>Четыре числа, которые описывают весну&nbsp;2026</h2>
+    <div class="stats">
+      <div><div class="num">9–10</div><div class="lbl">резюме на одну вакансию в РФ весной 2026 (было 3,1 в 2024)</div></div>
+      <div><div class="num">~80K</div><div class="lbl">уволенных в техе в Q1 2026, ~48% увольнений компании привязали к AI</div></div>
+      <div><div class="num">27,4%</div><div class="lbl">объявлений на LinkedIn в США — фейковые ghost jobs</div></div>
+      <div><div class="num">−13%</div><div class="lbl">занятость 22–25-летних в AI-exposed профессиях (Stanford)</div></div>
+    </div>
+    <p>Эти четыре цифры — каркас лекции. Дальше — что за ними и что с этим делать.</p>
+  </div>
+</section>
+
+<!-- 03 TLDR -->
+<section class="slide" data-title="TL;DR — 7 сдвигов">
+  <div class="wrap">
+    <div class="seclabel"><b>02</b> · TL;DR за 5 минут</div>
+    <h2>Семь сдвигов, которые пересобрали рынок</h2>
     <div class="tldr">
-      <div class="card"><div class="n">1</div><h4>Рынок — у работодателя</h4><p>Индекс HH вырос с ~3,1 (2024) до 9–10 резюме на вакансию. Вакансий −25–30%, резюме +35–40%. В США за Q1 2026 — почти 80 000 уволенных в техе, 48% компании прямо связывают с AI.</p></div>
+      <div class="card"><div class="n">1</div><h4>Рынок — у работодателя</h4><p>Индекс HH с ~3,1 (2024) до 9–10 резюме на вакансию. Вакансий −25–30%, резюме +35–40%. В США за Q1 2026 — почти 80 000 уволенных в техе, 48% связано с AI.</p></div>
       <div class="card"><div class="n">2</div><h4>Поиск работы = bot vs bot</h4><p>79% работодателей используют AI/автоматизацию в ATS, 64% — для авто-отказов. На той стороне — соискатели с auto-apply ботами по 100–1000 откликов в день.</p></div>
       <div class="card"><div class="n">3</div><h4>Junior-позиции вымываются</h4><p>В США entry-level в IT упал на 35% с 2023, в UK — на 46% в 2024. У 22–25-летних в AI-exposed ролях занятость −13% (Stanford), у джунов-разработчиков — −20%.</p></div>
-      <div class="card"><div class="n">4</div><h4>Ghost jobs — норма</h4><p>27,4% объявлений на LinkedIn в США — фейковые. 81% рекрутёров признали, что компания постила ghost jobs. Онтарио с 2026 ввёл закон, требующий раскрывать реальность вакансии.</p></div>
+      <div class="card"><div class="n">4</div><h4>Ghost jobs — норма</h4><p>27,4% объявлений на LinkedIn в США — фейковые. 81% рекрутёров признали практику. Онтарио с 2026 ввёл закон, требующий раскрывать реальность вакансии.</p></div>
       <div class="card"><div class="n">5</div><h4>AI на интервью — индустрия</h4><p>Cluely, Interview Coder, LockedIn AI, Final Round — невидимые оверлеи с подсказками. Рекрутёры отвечают «interview-first screening» и поведенческим анализом.</p></div>
       <div class="card"><div class="n">6</div><h4>Скиллы перевернулись</h4><p>AI literacy стал базой как Excel в 2000-х. PwC: AI-навыки дают премию к зарплате до +56%. WEF: 39% core skills изменятся к 2030.</p></div>
       <div class="card"><div class="n">7</div><h4>Главный риск — бездействие</h4><p>Выигрывают те, кто (а) научился использовать AI как ко-пилота, (б) умеет показывать измеримые результаты, (в) играет в нетворк, а не только в job boards.</p></div>
@@ -264,24 +313,28 @@
   </div>
 </section>
 
-<!-- 1. Market -->
-<section id="market"><span class="anchor"></span>
+<!-- 04 RUSSIA -->
+<section class="slide alt" data-title="Россия — конкретика">
   <div class="wrap">
-    <div class="seclabel"><b>01</b> · Что произошло с рынком</div>
-    <h2>Россия и мир — параллельный сдвиг</h2>
-
-    <h3>Россия: конкретика</h3>
+    <div class="seclabel"><b>03</b> · Что произошло с рынком · Россия</div>
+    <h2>Россия: рынок развернулся к работодателю</h2>
     <div class="statlist">
       <div><div class="v">9–10</div><div class="l">резюме на вакансию весной 2026 (HH Индекс)</div></div>
       <div><div class="v">−25–30%</div><div class="l">вакансий к 2025-му</div></div>
       <div><div class="v">+35–40%</div><div class="l">резюме к 2025-му</div></div>
       <div><div class="v">4,6–5,1</div><div class="l">мес. — срок поиска у тех, кто доходит до результата (было 7–8)</div></div>
       <div><div class="v">12 / 11 / 8 %</div><div class="l">структура спроса 2025: рабочий персонал / продажи / стройка</div></div>
-      <div><div class="v">74%</div><div class="l">крупных компаний (1000+): главный приоритет 2026 — производительность труда</div></div>
+      <div><div class="v">74%</div><div class="l">крупных компаний (1000+): главный приоритет 2026 — производительность</div></div>
     </div>
-    <p class="quote">«Ключевой сдвиг 2026 — пересмотр ценности линейного персонала и борьба с дефицитом рабочих специальностей.»<br/><span style="font-style:normal;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--mute)">— Мария Игнатова, директор HH.ru по исследованиям</span></p>
+    <p class="quote">«Ключевой сдвиг 2026 — пересмотр ценности линейного персонала и борьба с дефицитом рабочих специальностей.»<span class="src">Мария Игнатова, директор HH.ru по исследованиям</span></p>
+  </div>
+</section>
 
-    <h3>Глобально: США / ЕС</h3>
+<!-- 05 GLOBAL -->
+<section class="slide" data-title="Глобально — США/ЕС">
+  <div class="wrap">
+    <div class="seclabel"><b>04</b> · Что произошло с рынком · Мир</div>
+    <h2>США и ЕС — параллельный сдвиг</h2>
     <ul>
       <li><b>Tech-увольнения Q1 2026:</b> ~78 500 человек за январь–апрель, 47,9% компании привязали к AI/автоматизации (Nikkei Asia).</li>
       <li><b>Накопительно с 2020:</b> ~900 000 уволенных в техе.</li>
@@ -290,560 +343,462 @@
       <li><b>HBR/Stanford (2019–март 2025):</b> routine/automation-prone вакансии — −13% после ChatGPT, аналитические/технические/креативные — +20%.</li>
       <li><b>Парадокс:</b> Anthropic в собственных исследованиях пока не находит явного роста безработицы в exposed-профессиях. Эффект «канарейки в шахте» виден на джунах — но до массовой статистики ещё не доехал.</li>
     </ul>
-
     <h3>Парадокс «вакансий много, работы нет»</h3>
     <p>Структурный дисбаланс: вакансии есть, но они в узких сегментах (рабочие, курьеры, узкие технари). Массовый офисный сотрудник — юрист, экономист, HR, админ — попадает в избыточный сегмент. Отсюда ощущение «отклики уходят в пустоту» при формально низкой безработице.</p>
   </div>
 </section>
 
-<!-- 2. AI in hiring -->
-<section id="ai"><span class="anchor"></span>
+<!-- 06 AI EMPLOYER NUMBERS -->
+<section class="slide alt" data-title="AI у работодателя — числа">
   <div class="wrap">
-    <div class="seclabel"><b>02</b> · AI на стороне работодателя</div>
+    <div class="seclabel"><b>05</b> · AI на стороне работодателя</div>
     <h2>Найм автоматизирован сверху донизу</h2>
-
     <div class="statlist">
-      <div><div class="v">88%</div><div class="l">компаний используют AI для early-stage скрининга кандидатов (WEF)</div></div>
+      <div><div class="v">88%</div><div class="l">компаний используют AI для early-stage скрининга (WEF)</div></div>
       <div><div class="v">79%</div><div class="l">организаций используют AI/автоматизацию в ATS</div></div>
       <div><div class="v">64%</div><div class="l">используют ATS для авто-отказов кандидатам</div></div>
       <div><div class="v">84%</div><div class="l">talent-лидеров планируют использовать AI в 2026 (Korn Ferry)</div></div>
       <div><div class="v">44%</div><div class="l">компаний используют AI конкретно для скрининга резюме (SHRM)</div></div>
       <div><div class="v">66 / 29 %</div><div class="l">для написания JD / для коммуникации с кандидатами</div></div>
     </div>
+    <p>На массовой воронке решение «брать или нет» уже принимается без участия человека.</p>
+  </div>
+</section>
 
-    <h3>Что компании реально делают</h3>
+<!-- 07 AI EMPLOYER PRACTICES -->
+<section class="slide" data-title="AI у работодателя — практики">
+  <div class="wrap">
+    <div class="seclabel"><b>06</b> · AI на стороне работодателя · Кейсы</div>
+    <h2>Что компании реально делают</h2>
     <ol>
       <li><b>AI-скрининг резюме.</b> Phenom, Eightfold, Paradox, Covey — анализируют миллионы резюме, ранжируют по «fit score». Сокращают screening time на 80–90%.</li>
-      <li><b>Voice AI на первичных интервью.</b> Кейс Zapier × Ezra: AI обзванивает кандидатов, ведёт двусторонний диалог, отвечает на вопросы. Сэкономили 30% времени рекрутёров, увеличили проход с screening в 5 раз.</li>
+      <li><b>Voice AI на первичных интервью.</b> Кейс Zapier × Ezra: AI обзванивает кандидатов, ведёт двусторонний диалог. 30% экономии времени рекрутёров, в 5 раз больше кандидатов проходят screening.</li>
       <li><b>Conversational AI screening.</b> EvoHire, AiPersy, HireVue — проводят полноценное интервью, отсеивают «AI-cheaters» по скорости отклика и лексическому анализу.</li>
-      <li><b>Outbound sourcing.</b> Pin.com сканирует базу 850M+ профилей, выходит на пассивных кандидатов через email/LinkedIn/SMS, отвечают 48%.</li>
+      <li><b>Outbound sourcing.</b> Pin.com — база 850M+ профилей, выходит на пассивных кандидатов через email/LinkedIn/SMS, отвечают 48%.</li>
       <li><b>Кейс Airbus (Bessie):</b> 12 000 взаимодействий в месяц, 60% — вне рабочего времени, 74% вопросов закрываются ботом без участия рекрутёра.</li>
       <li><b>Кейс L'Oréal:</b> ~40 минут экономии на каждом кандидате благодаря авто-FAQ и базовому скринингу.</li>
-      <li><b>Mastercard, Stanford Health Care, Brother International:</b> time-to-hire сокращён на 25–85%, application completion +40–140%.</li>
+      <li><b>Mastercard, Stanford Health Care, Brother International:</b> time-to-hire −25–85%, application completion +40–140%.</li>
     </ol>
-
     <h3>Юридический тренд</h3>
     <ul>
-      <li><b>EU AI Act:</b> обязательства по compliance в hiring AI стартуют с августа 2026 — отдельная категория «AI Governance and Ethics Specialists» становится самой быстрорастущей.</li>
-      <li><b>Ontario, Canada (с 1 января 2026):</b> компании 25+ сотрудников обязаны раскрывать реальность вакансии, уведомлять кандидатов о решении в течение 45 дней, раскрывать использование AI в найме, указывать вилку.</li>
+      <li><b>EU AI Act:</b> compliance в hiring AI — с августа 2026. «AI Governance and Ethics Specialists» — самая быстрорастущая категория.</li>
+      <li><b>Ontario, Canada (с 1 января 2026):</b> обязательное раскрытие реальности вакансии, уведомление кандидатов в 45 дней, раскрытие AI в найме, указание вилки.</li>
       <li><b>РФ:</b> ст. 64 ТК РФ обязывает обосновывать отказ — компании этого боятся, поэтому «отвечать молчанием» — стандартный ход.</li>
     </ul>
   </div>
 </section>
 
-<!-- 3. AI on candidate side -->
-<section><span class="anchor" id="candidate-ai"></span>
+<!-- 08 AI CANDIDATE -->
+<section class="slide alt" data-title="AI у соискателя">
   <div class="wrap">
-    <div class="seclabel"><b>03</b> · AI на стороне соискателя</div>
-    <h2>Что используют кандидаты — и почему массовая рассылка перестаёт работать</h2>
-
+    <div class="seclabel"><b>07</b> · AI на стороне соискателя</div>
+    <h2>Что используют кандидаты</h2>
     <div class="tablewrap">
     <table>
       <thead><tr><th>Категория</th><th>Что делает</th><th>Примеры</th></tr></thead>
       <tbody>
-        <tr><td><b>Auto-apply боты</b></td><td>Подают сотни откликов в день на LinkedIn/Indeed/Glassdoor с авто-заполнением</td><td>LazyApply, LoopCV, JobCopilot, AIApply, Sonara, Undetectable Smart Applier, Jobright, LiftmyCV</td></tr>
+        <tr><td><b>Auto-apply боты</b></td><td>Подают сотни откликов в день на LinkedIn/Indeed/Glassdoor</td><td>LazyApply, LoopCV, JobCopilot, AIApply, Sonara, Jobright, LiftmyCV</td></tr>
         <tr><td><b>Resume optimizers</b></td><td>Подгоняют резюме под JD, обходят ATS-фильтры</td><td>Careerflow, AI Blaze, Rezi, ResumeUp.AI, SkillSyncer</td></tr>
         <tr><td><b>Cover letter generators</b></td><td>Пишут сопроводительные за секунды</td><td>Встроены почти везде</td></tr>
-        <tr><td><b>AI mock interview</b></td><td>Моделируют интервью, дают фидбек</td><td>AIApply Interview Buddy, Careerflow, JobCopilot</td></tr>
-        <tr><td><b>Real-time interview copilots</b></td><td>Невидимый оверлей с подсказками во время живого интервью</td><td>Cluely, Interview Coder, LeetCode Wizard, Final Round AI, LockedIn AI, Natively</td></tr>
+        <tr><td><b>AI mock interview</b></td><td>Моделируют интервью, дают фидбек</td><td>AIApply Interview Buddy, Careerflow</td></tr>
+        <tr><td><b>Real-time interview copilots</b></td><td>Невидимый оверлей с подсказками во время интервью</td><td>Cluely, Interview Coder, Final Round AI, LockedIn AI</td></tr>
         <tr><td><b>Job trackers</b></td><td>Дашборд по всем откликам и фоллоу-апам</td><td>Careerflow, Metaintro, FoundRole</td></tr>
       </tbody>
     </table>
     </div>
+    <p class="quote">«Подал 100 откликов на LinkedIn за месяц. Получил 106 просмотров профиля. Ноль интервью.»<span class="src">Medium, февраль 2026</span></p>
+  </div>
+</section>
 
+<!-- 09 CLUELY -->
+<section class="slide" data-title="Cluely и cheating">
+  <div class="wrap">
+    <div class="seclabel"><b>08</b> · AI на стороне соискателя · Cheating</div>
+    <h2>Cluely и индустрия cheating</h2>
     <div class="two">
       <div>
-        <h3>Что реально происходит</h3>
-        <ul>
-          <li><b>Скорость:</b> ручной отклик с подгонкой резюме — 30–45 мин. Бот делает то же за &lt;1 минуты.</li>
-          <li><b>Качество vs объём:</b> шаблонные отклики отсекаются ATS. Хорошие — берут ключевые слова из JD и встраивают в резюме под каждую вакансию.</li>
-          <li><b>Стоимость:</b> бесплатные тулы лимитируют 10–30 заявок в месяц. Платные — $20–149/мес.</li>
-          <li><b>Конверсия:</b> при правильной настройке interview rate в 3–5 раз выше ручного. Если ниже 3% после 50 откликов — таргетинг слишком широкий.</li>
-        </ul>
-        <p class="quote">«Подал 100 откликов на LinkedIn за месяц. Получил 106 просмотров профиля. Ноль интервью.» <span style="font-style:normal;font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--mute)">— Medium, февраль 2026</span></p>
-      </div>
-      <div>
-        <h3>Cluely и индустрия cheating</h3>
         <ul>
           <li><b>Cluely:</b> founder Roy Lee отчислен из Колумбии в 2025 за Interview Coder, привлёк $5,3M seed + $15M Series A от a16z. ARR на запуске $7M (Lee позже признал, что цифра была ложью). 70 000 регистраций за неделю запуска.</li>
           <li><b>Как работает:</b> прозрачное окно поверх Zoom/Teams, читает вопрос интервьюера через распознавание речи, прогоняет через LLM, выводит ответ за 1–2 секунды. Невидимо при screen-share.</li>
           <li><b>Проблема для всех:</b> FBI отдельно предупреждал про North Korean IT workers, использующих эти тулы для проникновения в западные сети. Cost фрод-найма &gt;$50K только в прямых потерях.</li>
-          <li><b>Ответ рынка:</b> «interview-first screening» — кандидата сразу прогоняют через структурированное AI-интервью, человек смотрит только топ-10%. Поведенческий анализ: одинаковые паузы 4–5 сек независимо от сложности вопроса, горизонтальные движения глаз (чтение).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Ответ рынка</h3>
+        <ul>
+          <li><b>«Interview-first screening»</b> — кандидата сразу прогоняют через структурированное AI-интервью, человек смотрит только топ-10%.</li>
+          <li><b>Поведенческий анализ:</b> одинаковые паузы 4–5 секунд независимо от сложности вопроса, горизонтальные движения глаз (чтение).</li>
+          <li><b>Для соискателя:</b> риск repetition-блек-листа выше потенциальной выгоды. <b>Не использовать.</b></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. Ghost jobs -->
-<section id="ghost"><span class="anchor"></span>
+<!-- 10 GHOST JOBS -->
+<section class="slide alt" data-title="Ghost jobs">
   <div class="wrap">
-    <div class="seclabel"><b>04</b> · Ghost jobs</div>
+    <div class="seclabel"><b>09</b> · Ghost jobs</div>
     <h2>Почти треть вакансий на LinkedIn не существует</h2>
-
     <div class="bignum"><div class="v">27,4%</div><div class="l">объявлений на LinkedIn в США — likely ghost jobs (ResumeUp.AI, 2025). ЛА — 30,5%, Филадельфия — 30,1%, Нью-Йорк — 26,7%, Сан-Франциско — 26,0%. Минимум — Сиэтл (16,6%).</div></div>
-
     <div class="two">
       <div>
         <h3>Зачем компании это делают</h3>
         <ol>
-          <li>Сигнал инвесторам и сотрудникам, что компания «растёт» (43%).</li>
-          <li>Психологическое давление на текущих сотрудников: «вас можно заменить» (62%).</li>
+          <li>Сигнал инвесторам, что компания «растёт» (43%).</li>
+          <li>Психологическое давление на сотрудников: «вас можно заменить» (62%).</li>
           <li>Сбор резюме «на всякий случай» — pipeline grab.</li>
-          <li>Compliance — внутренний кандидат уже выбран, но обязаны постить внешне.</li>
-          <li>Market intelligence — увидеть, кто доступен и за какие деньги.</li>
+          <li>Compliance — внутренний кандидат уже выбран.</li>
+          <li>Market intelligence — кто доступен и за какие деньги.</li>
           <li>Просто забыли закрыть после найма.</li>
         </ol>
-        <ul>
-          <li><b>40%</b> компаний признались в опросах, что постили fake jobs в 2024.</li>
-          <li><b>81% рекрутёров</b> признали практику (MyPerfectResume).</li>
-          <li><b>77% менеджеров</b> сказали, что «постинг fake jobs повышает продуктивность сотрудников» (ResumeBuilder.com).</li>
-          <li><b>Hires/job posting</b> за 5 лет упало вдвое (Revelio Labs).</li>
-        </ul>
       </div>
       <div>
-        <h3>Как ловить ghost jobs</h3>
+        <h3>Как ловить</h3>
         <ul>
           <li>Объявление висит больше 30 дней.</li>
           <li>Объявления нет на собственной career page компании.</li>
           <li>Описание расплывчатое, без специфики команды/стека.</li>
           <li>Зарплатная вилка — невероятно широкая.</li>
           <li>Невозможно найти hiring manager в LinkedIn.</li>
-          <li>Одна и та же вакансия публикуется заново раз в месяц.</li>
           <li>Авто-отказ через несколько часов после отправки.</li>
-          <li>LinkedIn ввёл «verified job badges», но &gt;40% объявлений всё ещё не верифицированы.</li>
         </ul>
-        <p class="quote">Среднее время на хорошо оформленный отклик — 45 мин. Из 100 откликов ~27 уходят в никуда → 20+ часов потерянного времени.</p>
       </div>
     </div>
+    <p><b>40%</b> компаний признались, что постили fake jobs в 2024. <b>81% рекрутёров</b> признали практику. <b>Hires/job posting</b> за 5 лет упало вдвое (Revelio Labs).</p>
   </div>
 </section>
 
-<!-- 5. Juniors -->
-<section id="juniors"><span class="anchor"></span>
+<!-- 11 JUNIORS -->
+<section class="slide" data-title="Джуниоры">
   <div class="wrap">
-    <div class="seclabel"><b>05</b> · Джуниоры</div>
+    <div class="seclabel"><b>10</b> · Джуниоры</div>
     <h2>Нижняя ступень разрывается — но не исчезает</h2>
-
     <div class="statlist">
-      <div><div class="v">−13%</div><div class="l">занятость 22–25-летних в AI-exposed профессиях (Stanford, август 2025)</div></div>
+      <div><div class="v">−13%</div><div class="l">занятость 22–25-летних в AI-exposed (Stanford, август 2025)</div></div>
       <div><div class="v">−20%</div><div class="l">software developers 22–25 лет</div></div>
       <div><div class="v">+6 / +9 %</div><div class="l">занятость работников постарше в тех же ролях</div></div>
       <div><div class="v">−9–10%</div><div class="l">junior employment в компаниях, внедривших Gen AI (Harvard, февраль 2026)</div></div>
-      <div><div class="v">−46%</div><div class="l">tech graduate roles в UK в 2024, прогноз ещё минус 53% к 2026</div></div>
+      <div><div class="v">−46%</div><div class="l">tech graduate roles в UK в 2024, прогноз −53% к 2026</div></div>
       <div><div class="v">−35%</div><div class="l">entry-level postings в США с 2023</div></div>
-      <div><div class="v">~50%</div><div class="l">white-collar entry-level позиций под угрозой за 5 лет (Dario Amodei, Anthropic)</div></div>
+      <div><div class="v">~50%</div><div class="l">white-collar entry-level позиций под угрозой за 5 лет (Amodei)</div></div>
       <div><div class="v">77 / 18 %</div><div class="l">AI-роли требуют master's / PhD — bottleneck снизу</div></div>
       <div><div class="v">3×</div><div class="l">IBM увеличила джуниор-найм в 2026 (раскол стратегий)</div></div>
     </div>
-
     <p class="quote">Джуниоров не «уничтожают» — поднимают планку. Junior dev теперь должен производить на уровне 2–3 лет опыта, потому что AI делает за него boilerplate.</p>
-
-    <p><b>Стратегический риск для индустрии (2030+):</b> компании «съели свои семена». Без джуниоров не будет среднего звена через 5 лет. IBM первой развернулась — втрое увеличила entry-level найм в 2026, аргументируя тем, что AI ещё нужен «human touch».</p>
+    <p><b>Стратегический риск (2030+):</b> компании «съели свои семена». Без джуниоров не будет среднего звена через 5 лет.</p>
   </div>
 </section>
 
-<!-- 6. Skills -->
-<section id="skills"><span class="anchor"></span>
+<!-- 12 SKILLS -->
+<section class="slide alt" data-title="Скиллы 2026">
   <div class="wrap">
-    <div class="seclabel"><b>06</b> · Скиллы 2026</div>
+    <div class="seclabel"><b>11</b> · Скиллы 2026</div>
     <h2>Hard и soft перевернулись и склеились</h2>
-
     <div class="two">
       <div>
-        <h3>Hard skills (по job postings)</h3>
+        <h3>Hard skills</h3>
         <ul>
-          <li><b>AI/ML</b> — в 89% IT-вакансий, премия к зарплате $30–50K (PwC: до +56%).</li>
-          <li><b>Data analysis &amp; viz</b> — продвинутые роли платят на 57% больше базовых.</li>
+          <li><b>AI/ML</b> — в 89% IT-вакансий, премия $30–50K (PwC: до +56%).</li>
+          <li><b>Data analysis &amp; viz</b> — продвинутые роли +57% к базовым.</li>
           <li><b>Cloud + DevOps</b> — cloud engineers $168K+ в США.</li>
-          <li><b>Cybersecurity</b> — gap 3,4M специалистов глобально, до $180K.</li>
-          <li><b>Prompt engineering</b> — официально fastest-growing skill на LinkedIn.</li>
-          <li><b>MLOps + deployment</b> — переход от «exp с моделями» к «production readiness».</li>
+          <li><b>Cybersecurity</b> — gap 3,4M спецов глобально, до $180K.</li>
+          <li><b>Prompt engineering</b> — fastest-growing skill на LinkedIn.</li>
+          <li><b>MLOps + deployment</b> — production readiness.</li>
           <li><b>AI Governance &amp; Ethics</b> — взлёт из-за EU AI Act.</li>
-          <li><b>Data Annotation</b> — формализуется как отдельная роль.</li>
         </ul>
       </div>
       <div>
-        <h3>Soft skills (по опросам)</h3>
+        <h3>Soft skills</h3>
         <ul>
-          <li><b>AI/Tech Fluency</b> — 60% работодателей назвали критичной (HR Source poll).</li>
+          <li><b>AI/Tech Fluency</b> — 60% работодателей назвали критичной.</li>
           <li><b>Adaptability &amp; Resilience</b> — 25%.</li>
-          <li><b>Critical Thinking</b> — 10%, но Google Project Oxygen называет её топ-предиктором успеха.</li>
-          <li><b>Emotional Intelligence</b> — 71% работодателей в топе требований (SHRM).</li>
-          <li><b>Leadership &amp; Collaboration</b> — 5%, но в senior-позициях критично.</li>
+          <li><b>Critical Thinking</b> — 10%, но Google Project Oxygen — топ-предиктор успеха.</li>
+          <li><b>Emotional Intelligence</b> — 71% работодателей в топе требований.</li>
+          <li><b>Leadership &amp; Collaboration</b> — 5%, в senior-позициях критично.</li>
         </ul>
         <p class="quote">PwC 2025: профессии, exposed к AI, требуют на 55% быстрее меняющихся скиллов. WEF: 39% core skills изменятся к 2030.</p>
       </div>
     </div>
-
     <h3>HH.ru про РФ</h3>
-    <ul>
-      <li>В 2024 hard skills решали трудоустройство; в 2026 без soft skills сложно претендовать на middle+.</li>
-      <li>Для senior — умение <b>показывать ROI своей работы</b> (сколько денег принёс/сэкономил).</li>
-      <li>Готовность брать ответственности больше без доплаты.</li>
-      <li>Экспертиза в смежных областях (CTO с пониманием маркетинга стоит дороже).</li>
-      <li><b>Стратегия найма:</b> 2024 — «бери любого, кто дышит» → 2025 — «идеальный кандидат» → 2026 — «адекватный с потенциалом роста».</li>
-    </ul>
-    <p><em>Новый профиль 2026 — «human-centric technologist»: аналитическое мышление + эмпатия + адаптивность + AI-беглость. К 2026 9 из 10 профессий потребуют комбинацию digital fluency + social influence + creative problem solving (WEF).</em></p>
+    <p>В 2024 hard skills решали трудоустройство; в 2026 без soft skills сложно претендовать на middle+. Для senior — умение <b>показывать ROI своей работы</b>. Стратегия найма: 2024 «бери любого, кто дышит» → 2025 «идеальный кандидат» → 2026 <b>«адекватный с потенциалом роста»</b>.</p>
   </div>
 </section>
 
-<!-- 7. What to do -->
-<section id="what-to-do"><span class="anchor"></span>
+<!-- 13 WHAT TO DO -->
+<section class="slide" data-title="Что делать соискателю">
   <div class="wrap">
-    <div class="seclabel"><b>07</b> · Что делать соискателю</div>
+    <div class="seclabel"><b>12</b> · Что делать соискателю</div>
     <h2>Шесть практических разворотов</h2>
-
-    <h3>1. Ставка на нетворк, а не на job boards</h3>
-    <ul>
-      <li><b>Referred candidates</b> в 4 раза чаще получают офер, чем cold applicants (Zippia 2026).</li>
-      <li><b>Referrals — 30–50% всех наймов</b>, при этом всего 7% от пула аппликантов.</li>
-      <li><b>One-year retention:</b> referred — 46%, cold — 33%.</li>
-      <li><b>Логика:</b> на ghost job никто не порекомендует — никто не тратит социальный капитал на фейк. Referrals = self-correcting механизм.</li>
-      <li><b>Действие:</b> вместо 100 откликов в день — 5 целевых outreach к hiring managers через LinkedIn + alumni.</li>
-    </ul>
-
-    <h3>2. AI как ко-пилот, а не как замена</h3>
-    <ul>
-      <li>Auto-apply разумно: на «ниже среднего» вакансии для покрытия объёма; на любую целевую — пишем руками.</li>
-      <li>AI Resume Builder + ATS-checker — обязательны для прохождения первичного фильтра.</li>
-      <li>Mock interviews с AI — стандарт подготовки.</li>
-      <li><b>НЕ использовать interview cheating tools</b> (Cluely и его клоны). Риски выше выгоды: новые detection-системы ловят, репутация — навсегда.</li>
-    </ul>
-
-    <h3>3. Skills-first резюме</h3>
-    <ul>
-      <li>Меньше дипломов, больше <b>измеримых результатов</b>: «вырастил X% / сэкономил Y₽ / сократил Z дней».</li>
-      <li>Микро-сертификаты + портфолио &gt; классический диплом для большинства ролей.</li>
-      <li>Обязательно — кейсы работы с AI-инструментами: «использовал ChatGPT/Claude для X, что сократило Y на Z%».</li>
-      <li>Без опыта — поднять планку через AI-augmented projects: показать, что джун уже работает на уровне middle благодаря инструментам.</li>
-    </ul>
-
-    <h3>4. Подготовка к новому формату интервью</h3>
-    <ul>
-      <li><b>Conversational AI-интервью на первом этапе:</b> структурированные вопросы, нет «болтовни», AI оценивает по чек-листу.</li>
-      <li><b>Live coding без помощников:</b> office визит или двойная камера (одна на лицо, одна на руки/экран).</li>
-      <li><b>Interview-first screening:</b> прежде чем смотреть резюме, тебя могут прогнать через 20-минутный AI-чат.</li>
-    </ul>
-
-    <h3>5. Защита от ghost jobs</h3>
-    <ul>
-      <li>Фильтр «Past Week» на LinkedIn.</li>
-      <li>Проверить, что вакансия есть на career page компании.</li>
-      <li>Связаться с одним из сотрудников компании в LinkedIn перед откликом.</li>
-      <li>MintCareer / FoundRole / Metaintro — для проверки риска.</li>
-      <li>Не тратить &gt;15 минут на отклик до проверки.</li>
-    </ul>
-
-    <h3>6. Дисциплина «образование на всю жизнь»</h3>
-    <ul>
-      <li>39% core skills изменятся к 2030.</li>
-      <li>Курсы, microcredentials, hands-on проекты — постоянный конвейер.</li>
-      <li><b>AI-беглость к 2026 — то же самое, что Excel в 2000-х.</b> Не имеешь = вне рынка.</li>
-    </ul>
+    <div class="two">
+      <div>
+        <h3>1. Нетворк, а не job boards</h3>
+        <p>Referred candidates в 4× чаще получают офер. Referrals — 30–50% всех наймов, при этом 7% от пула. One-year retention: referred — 46%, cold — 33%. <b>Вместо 100 откликов в день — 5 целевых outreach</b> к hiring managers через LinkedIn + alumni.</p>
+        <h3>2. AI как ко-пилот, а не замена</h3>
+        <p>Auto-apply разумно: на «ниже среднего» вакансии для покрытия объёма; на любую целевую — пишем руками. ATS-checker и AI Resume Builder обязательны. Mock interviews с AI — стандарт. <b>НЕ использовать interview cheating tools.</b></p>
+        <h3>3. Skills-first резюме</h3>
+        <p>Меньше дипломов, больше <b>измеримых результатов</b>: «вырастил X% / сэкономил Y₽». Микро-сертификаты + портфолио &gt; диплом. Обязательно — кейсы работы с AI: «использовал Claude для X, сократило Y на Z%».</p>
+      </div>
+      <div>
+        <h3>4. Новый формат интервью</h3>
+        <p>Готовиться к conversational AI на первом этапе: структурированные вопросы, AI оценивает по чек-листу. Live coding без помощников: либо office, либо двойная камера. <b>Interview-first screening:</b> 20-минутный AI-чат до резюме.</p>
+        <h3>5. Защита от ghost jobs</h3>
+        <p>Фильтр «Past Week» на LinkedIn. Проверять career page компании. Связаться с сотрудником в LinkedIn перед откликом. MintCareer / FoundRole / Metaintro — для проверки риска. <b>Не тратить &gt;15 минут</b> на отклик до проверки.</p>
+        <h3>6. Образование на всю жизнь</h3>
+        <p>39% core skills изменятся к 2030. Курсы, microcredentials, hands-on проекты — постоянный конвейер. <b>AI-беглость к 2026 = Excel в 2000-х. Не имеешь = вне рынка.</b></p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- 8. News timeline -->
-<section><span class="anchor" id="news"></span>
+<!-- 14 NEWS TIMELINE -->
+<section class="slide alt" data-title="Хронология новостей">
   <div class="wrap">
-    <div class="seclabel"><b>08</b> · Свежие новости для лекции</div>
-    <h2>Хронология последних месяцев</h2>
+    <div class="seclabel"><b>13</b> · Хронология последних месяцев</div>
+    <h2>Свежие новости — что упомянуть на лекции</h2>
     <div class="tl">
       <div class="row"><div class="d">24 апр 2026</div><div class="e">Meta анонсировала <b>8 000 увольнений</b> (10% workforce); Microsoft — buyout-программа на ~7% US-сотрудников.</div></div>
       <div class="row"><div class="d">23 апр 2026</div><div class="e">Microsoft впервые за 51 год запустила voluntary retirement program (Rule of 70) — <b>~8 750 человек</b>.</div></div>
       <div class="row"><div class="d">21 апр 2026</div><div class="e">Blackstone-affiliated UKG уволила 950 сотрудников, прямо назвав AI причиной.</div></div>
       <div class="row"><div class="d">16 апр 2026</div><div class="e">Snap — 1 000 человек. CEO Spiegel: «<b>40% нового кода в Snap — AI-generated</b>».</div></div>
       <div class="row"><div class="d">8 апр 2026</div><div class="e">HH.ru опубликовал свежий ежемесячный обзор рынка.</div></div>
-      <div class="row"><div class="d">31 мар 2026</div><div class="e">Bloomberg/Benefit News: кейс Zapier × Ezra — 30% экономии времени на screening, 5× больше кандидатов.</div></div>
+      <div class="row"><div class="d">31 мар 2026</div><div class="e">Bloomberg/Benefit News: кейс Zapier × Ezra — 30% экономии времени, 5× больше кандидатов.</div></div>
       <div class="row"><div class="d">27 мар 2026</div><div class="e">Яндекс/Маркет: «Рынок труда в 2026 окончательно встал на сторону работодателя».</div></div>
-      <div class="row"><div class="d">25 мар 2026</div><div class="e">Spectraforce: AI-роли (AI/ML Engineer, MLOps, AI Governance Specialist, Data Annotator) — самые востребованные.</div></div>
-      <div class="row"><div class="d">24 мар 2026</div><div class="e">INSEE Франция — отчёт о 13% падении entry-level в AI-exposed.</div></div>
       <div class="row"><div class="d">8 мар 2026</div><div class="e">Anthropic Research: «нет явного эффекта на безработицу exposed-профессий, но есть signal на найме».</div></div>
       <div class="row"><div class="d">4 мар 2026</div><div class="e">HBR: исследование labor market — −13% routine vacancies, +20% analytical/creative.</div></div>
       <div class="row"><div class="d">24 фев 2026</div><div class="e">LinkedIn 2026: 1 из 3 вакансий — фейк (вирусный Medium-пост).</div></div>
-      <div class="row"><div class="d">18 фев 2026</div><div class="e">Builtin: глубокая статья о Cluely и индустрии interview cheating.</div></div>
       <div class="row"><div class="d">16 фев 2026</div><div class="e">Sprout: 64% ATS теперь на AI-авто-отказе.</div></div>
-      <div class="row"><div class="d">9 фев 2026</div><div class="e">Phenom: 20M кандидатов прошли через AI-чатбот за 12 месяцев.</div></div>
-      <div class="row"><div class="d">5 фев 2026</div><div class="e">vc.ru: подробный анализ Индекса HH по сравнению 2024 ↔ 2026.</div></div>
-      <div class="row"><div class="d">14 янв 2026</div><div class="e">IMF: 1 из 10 вакансий в развитых странах требует new skill, 1 из 20 в emerging markets.</div></div>
+      <div class="row"><div class="d">14 янв 2026</div><div class="e">IMF: 1 из 10 вакансий в развитых странах требует new skill, 1 из 20 в emerging.</div></div>
       <div class="row"><div class="d">1 янв 2026</div><div class="e">Ontario Working for Workers Act — обязательное раскрытие реальности вакансии.</div></div>
     </div>
   </div>
 </section>
 
-<!-- 9. AI Use Cases -->
-<section><span class="anchor" id="usecases"></span>
+<!-- 15 USE CASES 1-4 -->
+<section class="slide" data-title="AI как ко-пилот · 1—4">
   <div class="wrap">
-    <div class="seclabel"><b>09</b> · AI как ко-пилот в поиске</div>
-    <h2>Восемь практических use cases — не «ChatGPT написал резюме»</h2>
-    <p>Здесь не про генерацию текстов, а про AI как <b>аналитического партнёра</b>. Большинству участников Сборки это будет в новинку.</p>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 1</span>
-      <h3>Анализ собственного позиционирования</h3>
-      <p><b>Задача:</b> понять, как тебя видит рынок и где зазор между тем, что ты умеешь, и тем, что покупают.</p>
-      <ul>
-        <li>Скармливаем 5–10 самых интересных вакансий + текущее резюме.</li>
-        <li>«Сравни, какие из требований этих вакансий у меня есть в резюме явно, какие — есть, но не сформулированы, каких — нет совсем. Сделай матрицу с тремя колонками».</li>
-        <li>«На основе этой матрицы — какие 3 нарративные линии моего опыта самые сильные? Сформулируй каждую как 2-абзацную historia».</li>
-        <li>«Где в моём резюме есть claims без доказательств? Что бы спросил скептичный hiring manager?»</li>
-      </ul>
-      <p><em>Это уровень, который раньше делал карьерный коуч за $300/час.</em></p>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 2</span>
-      <h3>Адаптация резюме под конкретную вакансию</h3>
-      <ol>
-        <li>«Прочитай эту вакансию и определи 5 верхнеуровневых компетенций, которые на самом деле ищут (не ключевые слова, а реальные компетенции)».</li>
-        <li>«Вот моё текущее резюме. Где из моего опыта я могу attest каждую из этих 5 компетенций? Дай конкретные bullet points с STAR-структурой».</li>
-        <li>«Перепиши мой профиль так, чтобы за 5 секунд читатель понял: я — тот, кто им нужен».</li>
-        <li>«Найди 3 потенциальных red flag в моём резюме под эту вакансию и предложи, как их сгладить».</li>
-      </ol>
-      <p><em>Замечание:</em> обязательно потом просмотреть глазами и убрать AI-overclaims. Claude любит написать «driving cross-functional excellence» там, где у тебя было «двое стажёров».</p>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 3</span>
-      <h3>Cover letter, который не читается как cover letter</h3>
-      <p>Стандартный cover letter — мёртвый жанр. Но если он хороший — это твоё единственное окошко выделиться.</p>
-      <div class="prompt">Напиши cover letter для вакансии [job description]. Структура: первый абзац — конкретное наблюдение про их продукт/команду/отрасль (не комплимент). Второй абзац — одна история из моего опыта, прямо релевантная их главной задаче. Третий абзац — конкретное предложение, чем я мог бы быть полезен в первые 30/60/90 дней. Тон: доверительный, не «уважаемая комиссия». Длина: до 250 слов.</div>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 4</span>
-      <h3>Cold outreach в LinkedIn / email</h3>
-      <div class="prompt">Я хочу написать в LinkedIn [имя, должность, компания]. Цель — не попросить работу, а начать разговор. Контекст: [что у них происходит публично]. Что у меня может быть им полезно: [твоя экспертиза]. Напиши 3 варианта первого сообщения: A — короткий, на 50 слов, прямой. B — средний, со ссылкой на конкретный их кейс. C — провокационный, с одной нестандартной мыслью про их рынок. Не использовать «надеюсь, у вас всё хорошо», «with utmost respect».</div>
-      <div class="prompt">Помоги составить список 20 человек, с которыми стратегически полезно установить контакт в LinkedIn для перехода в [целевая роль]. Для каждого — почему именно он/она, что у нас может быть общего, и какой угол захода нестандартный.</div>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 5</span>
-      <h3>Подготовка к интервью</h3>
-      <div class="prompt">Ты — hiring manager на позицию [роль] в компании [компания]. Я кандидат. Проведи со мной 30-минутное behavioral интервью на русском. Задавай по одному вопросу за раз, жди мой ответ, давай критичную обратную связь после каждого. Особенный фокус — STAR-структура и конкретные числа. В конце — общий feedback с тремя зонами роста.</div>
-      <div class="prompt">Я иду на интервью в [компания] на роль [роль]. Сначала: что эта компания делает, кто их основные конкуренты, какие у них главные стратегические задачи на ближайший год. Потом: 5 умных вопросов, которые я могу задать в конце, чтобы показать, что я понимаю их контекст лучше большинства кандидатов.</div>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 6</span>
-      <h3>Salary negotiation</h3>
-      <div class="prompt">Мне предложили [сумма] на роль [роль] в [компания]. Параллельно у меня оффер на [сумма] от [компания]. Помоги: (1) проанализируй адекватность вилки для рынка; (2) составь скрипт переговоров, где я прошу [целевая сумма] — с обоснованием через value, не через market rate; (3) предусмотри 3 возможных возражения и ответы; (4) подскажи, какие не-зарплатные компоненты стоит запросить, если откажут поднять base.</div>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 7</span>
-      <h3>Карьерное планирование</h3>
-      <div class="prompt">Я работал [список ролей и индустрий]. Мне [возраст]. Меня драйвит [что], выгорает от [что]. Мой 5-летний горизонт — [цель]. Помоги: 3 принципиально разных карьерных трека, которые ведут к этой цели; для каждого — следующие 2 шага, риски, профиль человека, у которого это сработало бы лучше всего; какой из треков — самый недооценённый именно для моего профиля.</div>
-    </div>
-
-    <div class="uc">
-      <span class="uc-tag">Use case 8</span>
-      <h3>Резюме как продукт</h3>
-      <p>Не «обновить резюме раз в год», а <b>держать его в Claude в проектном файле и каждый раз после интересного достижения вписывать туда</b>. Через 6 месяцев — резюме с 30 свежими прицельными bullet points, из которых ты собираешь любую вариацию под любую вакансию за 5 минут.</p>
+    <div class="seclabel"><b>14</b> · AI как ко-пилот · use cases 1–4</div>
+    <h2>AI — не генератор текстов, а аналитический партнёр</h2>
+    <div class="two">
+      <div>
+        <div class="uc">
+          <span class="uc-tag">Use case 1</span>
+          <h3>Анализ позиционирования</h3>
+          <p>5–10 интересных вакансий + резюме → «Сделай матрицу: что есть явно, что есть, но не сформулировано, чего нет совсем». Дальше: «Какие 3 нарративные линии моего опыта самые сильные? Где claims без доказательств?»</p>
+          <p><em>Уровень, который раньше делал карьерный коуч за $300/час.</em></p>
+        </div>
+        <div class="uc">
+          <span class="uc-tag">Use case 2</span>
+          <h3>Адаптация резюме под вакансию</h3>
+          <ol>
+            <li>Определи 5 верхнеуровневых компетенций, которые на самом деле ищут.</li>
+            <li>Где из моего опыта я могу attest каждую — STAR-структура.</li>
+            <li>Перепиши профиль так, чтобы за 5 секунд понять: я — тот, кто им нужен.</li>
+            <li>Найди 3 red flag и предложи, как их сгладить.</li>
+          </ol>
+        </div>
+      </div>
+      <div>
+        <div class="uc">
+          <span class="uc-tag">Use case 3</span>
+          <h3>Cover letter, который не читается как cover letter</h3>
+          <div class="prompt">Напиши cover letter для [job description]. Структура: 1) конкретное наблюдение про их продукт/команду/отрасль; 2) одна история из моего опыта, прямо релевантная их главной задаче; 3) что я могу сделать в первые 30/60/90 дней. Тон: доверительный, не «уважаемая комиссия». До 250 слов.</div>
+        </div>
+        <div class="uc">
+          <span class="uc-tag">Use case 4</span>
+          <h3>Cold outreach в LinkedIn / email</h3>
+          <div class="prompt">Я хочу написать [имя, должность, компания]. Цель — начать разговор. Контекст: [что у них происходит публично]. Что у меня релевантного: [экспертиза]. Напиши 3 варианта: A — 50 слов прямой; B — со ссылкой на их кейс; C — провокационный с нестандартной мыслью. Без «надеюсь, у вас всё хорошо».</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 10. Tools -->
-<section id="tools"><span class="anchor"></span>
+<!-- 16 USE CASES 5-8 -->
+<section class="slide alt" data-title="AI как ко-пилот · 5—8">
   <div class="wrap">
-    <div class="seclabel"><b>10</b> · Карта AI-сервисов</div>
-    <h2>Шесть слоёв инструментов — от базовой гигиены до стратегии</h2>
+    <div class="seclabel"><b>15</b> · AI как ко-пилот · use cases 5–8</div>
+    <h2>Интервью, переговоры, стратегия</h2>
+    <div class="two">
+      <div>
+        <div class="uc">
+          <span class="uc-tag">Use case 5</span>
+          <h3>Подготовка к интервью</h3>
+          <div class="prompt">Ты — hiring manager на позицию [роль] в [компания]. Я кандидат. Проведи 30-минутное behavioral интервью на русском. По одному вопросу за раз, жди ответ, давай критичную обратную связь. Фокус — STAR-структура и конкретные числа. В конце — feedback с тремя зонами роста.</div>
+          <div class="prompt">Я иду на интервью в [компания] на роль [роль]. Сначала: что компания делает, конкуренты, главные стратегические задачи на год. Потом: 5 умных вопросов, которые я могу задать в конце.</div>
+        </div>
+        <div class="uc">
+          <span class="uc-tag">Use case 6</span>
+          <h3>Salary negotiation</h3>
+          <div class="prompt">Мне предложили [сумма] на роль в [компания]. Параллельно оффер на [сумма]. Помоги: (1) адекватность вилки; (2) скрипт переговоров с обоснованием через value, не market rate; (3) 3 возможных возражения и ответы; (4) не-зарплатные компоненты, если откажут поднять base.</div>
+        </div>
+      </div>
+      <div>
+        <div class="uc">
+          <span class="uc-tag">Use case 7</span>
+          <h3>Карьерное планирование</h3>
+          <div class="prompt">Я работал [роли]. Мне [возраст]. Драйвит [что], выгорает от [что]. 5-летний горизонт — [цель]. Помоги: 3 принципиально разных карьерных трека к этой цели; для каждого — следующие 2 шага, риски, профиль человека, у которого это сработало бы лучше всего; какой трек — самый недооценённый.</div>
+        </div>
+        <div class="uc">
+          <span class="uc-tag">Use case 8</span>
+          <h3>Резюме как продукт</h3>
+          <p>Не «обновить резюме раз в год», а <b>держать его в Claude в проектном файле и каждый раз после интересного достижения вписывать туда</b>. Через 6 месяцев — резюме с 30 свежими прицельными bullet points, из которых ты собираешь любую вариацию под любую вакансию за 5 минут.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 TOOLS L1-L3 -->
+<section class="slide" data-title="Карта тулов · базовое + auto-apply + outreach">
+  <div class="wrap">
+    <div class="seclabel"><b>16</b> · Карта AI-сервисов · слои 1—3</div>
+    <h2>Базовая гигиена → объём → нетворк</h2>
 
     <h3>Слой 1: Базовая гигиена <span class="pill good">обязательно</span></h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Категория</th><th>Что делает</th><th>Топ-инструменты</th><th>Стоимость</th></tr></thead>
-      <tbody>
-        <tr><td><b>ATS-чекер резюме</b></td><td>Проверяет, пройдёт ли резюме автоматический фильтр</td><td>Jobscan, SkillSyncer, ResumeWorded, Careerflow</td><td>$0–25/мес</td></tr>
-        <tr><td><b>AI Resume Builder</b></td><td>Генерирует/редактирует резюме под вакансию</td><td>Rezi, Careerflow, AIApply, Teal</td><td>$0–30/мес</td></tr>
-        <tr><td><b>Cover letter generator</b></td><td>Делает первичный draft за 30 секунд</td><td>Встроены везде; ChatGPT/Claude отдельно</td><td>Бесплатно с подпиской</td></tr>
-      </tbody>
-    </table></div>
-    <p><em>Рекомендация для Сборки:</em> Careerflow + ChatGPT/Claude — комбо для 95% участников. $25/мес и закрывает базу.</p>
+    <ul>
+      <li><b>ATS-чекер резюме</b> — Jobscan, SkillSyncer, ResumeWorded, Careerflow ($0–25/мес). Без этого вообще не выходить в рынок.</li>
+      <li><b>AI Resume Builder</b> — Rezi, Careerflow, AIApply, Teal. Лучший подход — собрать «master CV» и из него генерить варианты.</li>
+      <li><b>Cover letter generator</b> — встроены везде; ChatGPT/Claude отдельно. Не использовать «как есть».</li>
+    </ul>
+    <p><em>Рекомендация:</em> Careerflow + ChatGPT/Claude — комбо для 95% участников. $25/мес.</p>
 
     <h3>Слой 2: Auto-apply <span class="pill warn">осторожно</span></h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Сервис</th><th>Сильные стороны</th><th>Слабые</th><th>Стоимость</th></tr></thead>
-      <tbody>
-        <tr><td><b>LoopCV</b></td><td>EU и US, гибкая настройка</td><td>Качество tailoring зависит от настройки</td><td>$19–49/мес</td></tr>
-        <tr><td><b>JobCopilot</b></td><td>Только verified company career pages</td><td>Меньше объём</td><td>$30+/мес</td></tr>
-        <tr><td><b>AIApply</b></td><td>Resume + cover + interview prep всё в одном</td><td>Дорогой</td><td>$30–80/мес</td></tr>
-        <tr><td><b>LazyApply</b></td><td>Самый дешёвый по объёму</td><td>Шаблонность отклоняется ATS</td><td>$39 / $99 lifetime</td></tr>
-        <tr><td><b>Sonara</b></td><td>Умный матчинг, fully managed</td><td>Дорогой, для senior</td><td>$39+/мес</td></tr>
-        <tr><td><b>LiftmyCV</b></td><td>LinkedIn-фокус, AI Agent pay-as-you-go</td><td>Только LinkedIn, риск шадоу-бана</td><td>$0,05 за заявку</td></tr>
-      </tbody>
-    </table></div>
+    <p><b>LoopCV</b> ($19–49) · <b>JobCopilot</b> ($30+) · <b>AIApply</b> ($30–80) · <b>LazyApply</b> ($39 lifetime) · <b>Sonara</b> ($39+) · <b>LiftmyCV</b> ($0,05/заявку).</p>
     <ul>
-      <li>Auto-apply работает только если у тебя good base resume + чёткий ICP по вакансиям. Без таргетинга — конверсия 0%.</li>
-      <li>Conversion benchmark: <b>&lt;3%</b> interview rate после 50 заявок = настройка плохая.</li>
-      <li>На vacancies в РФ через hh.ru западные тулы практически не работают. Для России — LinkedIn Auto-Apply (LiftmyCV) + ручные отклики на hh.ru.</li>
-      <li><b>Auto-apply подходит для bottom-50% твоего пула вакансий.</b> Top-vacancies — всегда руками.</li>
+      <li>Без good base resume + чёткого ICP — конверсия 0%.</li>
+      <li>Benchmark: <b>&lt;3%</b> interview rate после 50 заявок = настройка плохая.</li>
+      <li>На РФ через hh.ru эти западные тулы практически не работают.</li>
+      <li>Auto-apply — для bottom-50% твоего пула. Top-vacancies — всегда руками.</li>
     </ul>
 
     <h3>Слой 3: Networking &amp; cold outreach <span class="pill acc">главный рычаг</span></h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Сервис</th><th>Что делает</th><th>Для кого</th></tr></thead>
-      <tbody>
-        <tr><td><b>NetworkAI by Wonsulting</b></td><td>Находит правильных рекрутёров/HM в LinkedIn, генерит персональные сообщения, email finder</td><td>Лучший фит для участников Сборки</td></tr>
-        <tr><td><b>Lavender</b></td><td>AI-коач по email — анализирует тон, релевантность, конкретику в реальном времени</td><td>Если уже шлёшь много холодных писем</td></tr>
-        <tr><td><b>Apollo.io</b></td><td>Большая B2B база контактов + email finder + sequences</td><td>Для систематического outreach</td></tr>
-        <tr><td><b>Clay</b></td><td>Глубокий enrichment + AI Claygent для написания персональных опенеров</td><td>Power-tool, нужен setup</td></tr>
-        <tr><td><b>HeyReach / Expandi / Dripify</b></td><td>LinkedIn outreach automation с safety limits</td><td>Рискованно для job search аккаунта</td></tr>
-        <tr><td><b>Hunter.io / Snov.io</b></td><td>Email finder по доменам компаний</td><td>Базовая утилита</td></tr>
-      </tbody>
-    </table></div>
+    <p><b>NetworkAI by Wonsulting</b> · <b>Lavender</b> · <b>Apollo.io</b> · <b>Clay</b> · <b>HeyReach / Expandi / Dripify</b> · <b>Hunter.io / Snov.io</b>.</p>
     <ul>
-      <li><b>LinkedIn cold outreach даёт 18–25% response rate</b> vs 1–5% у traditional cold email — в 3–5 раз эффективнее.</li>
-      <li><b>Главное правило 2026:</b> контент-first, outreach потом. LinkedIn в марте 2026 запустил алгоритм 360Brew, который режет органику у тех, кто шлёт холодные DM без публичного присутствия.</li>
-      <li><b>НЕ запускать автоматизацию на основной LinkedIn аккаунт</b> во время активного поиска — высокий риск block / shadow-ban.</li>
-      <li>Вместо bulk — <b>ручной outreach с AI-помощью</b>: 5 правильных людей, персонал, отправка руками.</li>
+      <li>LinkedIn cold outreach — <b>18–25% response</b> vs 1–5% у cold email. В 3–5× эффективнее.</li>
+      <li><b>Контент-first, outreach потом.</b> LinkedIn 360Brew режет органику тех, кто шлёт холодные DM без публичного присутствия.</li>
+      <li><b>Не запускать автоматизацию на основной LinkedIn-аккаунт</b> во время поиска — риск block / shadow-ban.</li>
+      <li>Bulk → ручной outreach с AI-помощью: 5 правильных людей, персонал, отправка руками.</li>
     </ul>
-
-    <h3>Слой 4: Interview prep</h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Сервис</th><th>Что делает</th><th>Findings</th></tr></thead>
-      <tbody>
-        <tr><td><b>AIApply Interview Buddy</b></td><td>Mock-интервью с AI, role-specific questions</td><td>Хорош для базового behavioral</td></tr>
-        <tr><td><b>Pramp</b></td><td>Peer-to-peer mock interviews</td><td>Лучшее для tech (real practice)</td></tr>
-        <tr><td><b>Yoodli</b></td><td>AI-коуч по soft skills: темп речи, filler words, eye contact</td><td>Для тех, кто волнуется</td></tr>
-        <tr><td><b>Interview Warmup (Google)</b></td><td>Бесплатный, базовый</td><td>Хорошо для старта</td></tr>
-        <tr><td><b>Claude/ChatGPT в режиме mock</b></td><td>См. Use Case 5</td><td>Лучшая гибкость, ноль cost</td></tr>
-      </tbody>
-    </table></div>
-    <p><em>Mock-интервью с Claude/ChatGPT часто эффективнее платных сервисов</em> — потому что AI знает твой контекст. Главное — давать ему обратную связь после каждого вопроса.</p>
-
-    <h3>Слой 5: Job tracking &amp; анти-ghost-jobs</h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Сервис</th><th>Что делает</th></tr></thead>
-      <tbody>
-        <tr><td><b>Careerflow</b></td><td>Tracker всех откликов, фоллоу-апы, статусы</td></tr>
-        <tr><td><b>Metaintro</b></td><td>Job aggregator + ghost-job detection</td></tr>
-        <tr><td><b>FoundRole</b></td><td>Filter по recency + verified jobs</td></tr>
-        <tr><td><b>MintCareer</b></td><td>Match score + ghost-job risk + AI action plan</td></tr>
-        <tr><td><b>HideJobs</b></td><td>Filter applied jobs + by hours</td></tr>
-      </tbody>
-    </table></div>
-    <p><em>Простейший трекер</em> = Notion/Airtable таблица. Не надо переплачивать за SaaS. LinkedIn ввёл «verified job badges» в 2025 — фильтровать только по ним: радикально снижает ghost-job рейт.</p>
-
-    <h3>Слой 6: Карьерная стратегия</h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Сервис</th><th>Что делает</th></tr></thead>
-      <tbody>
-        <tr><td><b>Wonsulting AI suite</b></td><td>Полный набор от резюме до networking + Guaranteed Interviews</td></tr>
-        <tr><td><b>Earnest career counselling</b></td><td>AI-коуч, специализирующийся на смене карьеры</td></tr>
-        <tr><td><b>PathRise / Pathful</b></td><td>Long-term career coaching с человеческими менторами + AI</td></tr>
-        <tr><td><b>Claude/ChatGPT с правильным prompting</b></td><td>См. Use case 7</td></tr>
-      </tbody>
-    </table></div>
-    <p><em>Для большинства участников Сборки правильно настроенный Claude закроет 80% потребности в карьерном планировании. Платные сервисы — только если нужна аккаунтабельность или специфика (visa-related, executive search).</em></p>
   </div>
 </section>
 
-<!-- 11. Channels -->
-<section><span class="anchor" id="channels"></span>
+<!-- 18 TOOLS L4-L6 -->
+<section class="slide alt" data-title="Карта тулов · interview + tracking + стратегия">
   <div class="wrap">
-    <div class="seclabel"><b>11</b> · Коммуникации в поиске</div>
-    <h2>Главный леверидж — на нетворке, не на резюме</h2>
-    <p>Все вкладываются в резюме и вспоминают про networking, когда уже поздно. А именно networking даёт <b>4× boost</b> к шансу оффера.</p>
+    <div class="seclabel"><b>17</b> · Карта AI-сервисов · слои 4—6</div>
+    <h2>Подготовка → трекинг → стратегия</h2>
 
-    <h3>Иерархия каналов по эффективности (2026)</h3>
+    <h3>Слой 4: Interview prep</h3>
+    <ul>
+      <li><b>AIApply Interview Buddy</b> — базовое behavioral.</li>
+      <li><b>Pramp</b> — peer-to-peer, лучшее для tech (real practice).</li>
+      <li><b>Yoodli</b> — AI-коуч по soft skills: темп речи, filler words, eye contact.</li>
+      <li><b>Interview Warmup (Google)</b> — бесплатный, базовый.</li>
+      <li><b>Claude/ChatGPT в режиме mock</b> — лучшая гибкость, ноль cost.</li>
+    </ul>
+    <p><em>Mock-интервью с Claude часто эффективнее платных сервисов</em> — AI знает твой контекст. Главное — давать обратную связь после каждого вопроса.</p>
+
+    <h3>Слой 5: Job tracking &amp; анти-ghost-jobs</h3>
+    <ul>
+      <li><b>Careerflow</b> — tracker всех откликов.</li>
+      <li><b>Metaintro</b> — job aggregator + ghost-job detection.</li>
+      <li><b>FoundRole</b> — filter по recency + verified jobs.</li>
+      <li><b>MintCareer</b> — match score + ghost-job risk + AI action plan.</li>
+      <li><b>HideJobs</b> — filter applied + by hours.</li>
+    </ul>
+    <p><em>Простейший трекер</em> = Notion/Airtable. LinkedIn ввёл «verified job badges» — фильтровать только по ним.</p>
+
+    <h3>Слой 6: Карьерная стратегия</h3>
+    <ul>
+      <li><b>Wonsulting AI suite</b> — полный набор + Guaranteed Interviews.</li>
+      <li><b>Earnest career counselling</b> — AI-коуч по смене карьеры.</li>
+      <li><b>PathRise / Pathful</b> — long-term coaching с менторами + AI.</li>
+      <li><b>Claude/ChatGPT</b> с правильным prompting — закроет 80% потребности.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 19 CHANNELS -->
+<section class="slide" data-title="Иерархия каналов">
+  <div class="wrap">
+    <div class="seclabel"><b>18</b> · Коммуникации в поиске</div>
+    <h2>Главный леверидж — на нетворке, не на резюме</h2>
+    <p>Networking даёт <b>4× boost</b> к шансу оффера. Все вкладываются в резюме и вспоминают про нетворк, когда уже поздно.</p>
     <ol class="ranked">
       <li><span class="ttl">Warm referral от знакомого внутри компании</span><span class="nb">~46% interview-rate, 4× выше offer probability</span></li>
       <li><span class="ttl">Personalized LinkedIn outreach к hiring manager (после контента)</span><span class="nb">18–25% response rate</span></li>
       <li><span class="ttl">Personalized cold email через найденный адрес</span><span class="nb">5–15% response rate (если письмо хорошее)</span></li>
       <li><span class="ttl">Ответ на vacancy через company career page (verified)</span><span class="nb">3–8% interview rate, шанс ghost-job ~10%</span></li>
       <li><span class="ttl">Easy Apply на LinkedIn</span><span class="nb">1–3% interview rate, шанс ghost-job 20–30%</span></li>
-      <li><span class="ttl">Mass auto-apply через бота</span><span class="nb">&lt;1% interview rate, объём компенсирует только при идеальной настройке</span></li>
+      <li><span class="ttl">Mass auto-apply через бота</span><span class="nb">&lt;1% interview rate</span></li>
     </ol>
-    <p class="quote">Вывод для Сборки: перевернуть пирамиду расходования времени. Сейчас большинство тратят 80% времени на пп. 4–6 и 20% на 1–3. Должно быть наоборот.</p>
-
-    <h3>Что писать — формула «3-1-1»</h3>
-    <ul>
-      <li><b>3 предложения контекста</b> — почему я пишу именно тебе именно сейчас (что-то конкретное про человека/компанию/событие).</li>
-      <li><b>1 предложение про себя</b> — кто я и что у меня релевантного.</li>
-      <li><b>1 предложение про конкретный next step</b> — не «было бы здорово пообщаться», а «есть 15 минут на следующей неделе обсудить X?».</li>
-    </ul>
-    <p><b>Никогда:</b> «Надеюсь, у вас всё хорошо» · «Я наткнулся на вашу компанию и впечатлён» · «Я прикрепляю своё резюме, посмотрите, пожалуйста» · любая шаблонная воронка.</p>
-
-    <h3>Контент-стратегия как pre-warmup</h3>
-    <p>Самый сильный ход в 2026 — <b>2–3 месяца публикации контента до начала активного поиска</b>. Тогда когда ты пишешь в холодную: hiring manager кликает на твой профиль → видит социальное доказательство → вероятность ответа повышается в 3–5 раз. Часть контактов сами приходят inbound. Минимальная программа: 2 поста в неделю, тема — твоя экспертиза. На LinkedIn это $0 и 30 минут в день.</p>
-
-    <h3>AI для коммуникации — свод</h3>
-    <div class="tablewrap"><table>
-      <thead><tr><th>Задача</th><th>Что использовать</th><th>Бесплатный путь</th></tr></thead>
-      <tbody>
-        <tr><td>Найти hiring manager</td><td>Sales Navigator, Apollo, NetworkAI</td><td>LinkedIn Boolean search вручную</td></tr>
-        <tr><td>Найти его email</td><td>Hunter.io, Snov.io, Apollo</td><td>Догадаться по паттерну домена + mailtester</td></tr>
-        <tr><td>Написать сообщение</td><td>Lavender, NetworkAI, Claude</td><td>Claude с правильным промптом</td></tr>
-        <tr><td>Систематизировать outreach</td><td>Apollo, lemlist, Salesforge</td><td>Простая таблица в Notion</td></tr>
-        <tr><td>Track ответы</td><td>Streak (Gmail), HubSpot Free CRM</td><td>Notion + ручные обновления</td></tr>
-        <tr><td>Написать контент</td><td>Claude с промптом про мой voice</td><td>Тот же Claude</td></tr>
-      </tbody>
-    </table></div>
+    <p class="quote">Перевернуть пирамиду расходования времени. Сейчас большинство тратит 80% на пп. 4–6 и 20% на 1–3. Должно быть наоборот.</p>
+    <h3>Формула «3-1-1»</h3>
+    <p><b>3 предложения контекста</b> (почему именно тебе и сейчас) → <b>1 предложение про себя</b> (что у меня релевантного) → <b>1 предложение про конкретный next step</b> («есть 15 минут на следующей неделе обсудить X?»). Никогда: «надеюсь, у вас всё хорошо», «я наткнулся на вашу компанию», «прикрепляю своё резюме».</p>
   </div>
 </section>
 
-<!-- 12. Quick wins -->
-<section id="quickwins"><span class="anchor"></span>
+<!-- 20 QUICK WINS -->
+<section class="slide alt" data-title="Quick wins">
   <div class="wrap">
-    <div class="seclabel"><b>12</b> · Quick wins</div>
+    <div class="seclabel"><b>19</b> · Quick wins</div>
     <h2>Что внедрить участнику Сборки прямо завтра</h2>
     <div class="qw">
-      <div class="step"><div class="n">1</div><h4>Claude / ChatGPT как карьерный партнёр</h4><p>Создать проект с master-резюме и текущими целями. Использовать промпты из раздела 09.</p></div>
+      <div class="step"><div class="n">1</div><h4>Claude / ChatGPT как карьерный партнёр</h4><p>Создать проект с master-резюме и текущими целями. Использовать промпты use cases 1–8.</p></div>
       <div class="step"><div class="n">2</div><h4>Почистить LinkedIn</h4><p>Resumeworded + Careerflow. Headline по формуле «who I help + how + with result». About до 1500–2000 символов.</p></div>
       <div class="step"><div class="n">3</div><h4>Запустить мини-контент</h4><p>2 поста в неделю по своей экспертизе. До начала активного outreach.</p></div>
-      <div class="step"><div class="n">4</div><h4>5 точных холодных контактов</h4><p>NetworkAI или вручную. Не бомбить — точечно, с персонализацией. Цель — не оффер, а разговор.</p></div>
+      <div class="step"><div class="n">4</div><h4>5 точных холодных контактов</h4><p>NetworkAI или вручную. Не бомбить — точечно. Цель — не оффер, а разговор.</p></div>
       <div class="step"><div class="n">5</div><h4>ATS-чекер на каждом резюме</h4><p>Jobscan / SkillSyncer перед отправкой. Базовая гигиена.</p></div>
     </div>
     <p><em>Эти пять шагов забивают 80% всей правильной стратегии 2026. Остальное — оптимизация.</em></p>
   </div>
 </section>
 
-<!-- 13. Risks -->
-<section><span class="anchor" id="risks"></span>
+<!-- 21 RISKS + FORMATS -->
+<section class="slide" data-title="Риски и форматы">
   <div class="wrap">
-    <div class="seclabel"><b>13</b> · Риски и слабые места материала</div>
-    <h2>Где данные противоречивы или требуют осторожности</h2>
-    <div class="risk"><b>«AI вызывает увольнения» vs «AI-washing».</b> Sam Altman (OpenAI) и Babak Hodjat (Cognizant) прямо говорят, что часть компаний прикрывает AI-нарративом обычную оптимизацию, начатую раньше. Реальный эффект пока сложно отделить от пост-COVID коррекции и cost-discipline.</div>
-    <div class="risk"><b>Anthropic vs Stanford.</b> Не все исследования согласны, что эффект уже виден на занятости. Самая аккуратная формулировка: «есть ранние сигналы на найме, на безработице эффекта пока нет».</div>
-    <div class="risk"><b>Ghost jobs 27,4%.</b> Методология ResumeUp.AI (всё, что висит &gt;30 дней — фейк) спорная. Greenhouse даёт 18–22%. Аккуратнее с цифрами.</div>
-    <div class="risk"><b>Cluely / Cheating.</b> Сама компания пивотировала из «cheating tool» в «meeting assistant», public coverage может быть устаревшим. Лучше показывать сам феномен (Interview Coder, LeetCode Wizard, open-source клоны), а не отдельный продукт.</div>
-    <div class="risk"><b>РФ-данные HH.ru.</b> Это коммерческий игрок с интересом подсветить «сложность» рынка (продажа премиум-сервисов). Стоит сверять с ВЦИОМ, Росстатом, SuperJob.</div>
-    <div class="risk"><b>Прогнозы Amodei про 50% white-collar.</b> Это публичное заявление CEO заинтересованной стороны, не peer-reviewed исследование. Использовать как «есть и такая точка зрения», не как факт.</div>
+    <div class="seclabel"><b>20</b> · Риски и форматы</div>
+    <h2>Где данные противоречивы — и как материал поворачивается в продукт</h2>
+    <div class="two">
+      <div>
+        <h3>Слабые места материала</h3>
+        <div class="risk"><b>«AI вызывает увольнения» vs «AI-washing».</b> Sam Altman и Babak Hodjat говорят, что часть компаний прикрывает AI-нарративом обычную оптимизацию.</div>
+        <div class="risk"><b>Anthropic vs Stanford.</b> Не все согласны, что эффект уже виден на занятости. Аккуратная формулировка: «есть ранние сигналы на найме».</div>
+        <div class="risk"><b>Ghost jobs 27,4%.</b> Методология ResumeUp.AI спорная. Greenhouse даёт 18–22%.</div>
+        <div class="risk"><b>Cluely.</b> Сама компания пивотировала. Лучше показывать феномен, не отдельный продукт.</div>
+        <div class="risk"><b>HH.ru.</b> Коммерческий игрок с интересом подсветить «сложность» рынка. Сверять с ВЦИОМ, Росстатом, SuperJob.</div>
+        <div class="risk"><b>Прогноз Amodei про 50% white-collar.</b> Заявление CEO заинтересованной стороны, не peer-reviewed.</div>
+      </div>
+      <div>
+        <h3>Возможные форматы для Сборки</h3>
+        <ol>
+          <li><b>«Поиск работы 2026: правила игры изменились»</b> — обзорная лекция 60–90 мин с Q&amp;A. Воронка к платным форматам.</li>
+          <li><b>«Рынок работодателя»</b> — для middle/senior, у которых не получается перейти. Позиционирование, нетворк, ROI-формулировки.</li>
+          <li><b>«AI как ко-пилот в поиске»</b> — практический воркшоп с разбором тулов. Сильный lead magnet.</li>
+          <li><b>«Джуниоры в 2026»</b> — отдельный сегмент, очень эмоциональный.</li>
+          <li><b>«Антифрод-гид»</b> — про ghost jobs и scams.</li>
+          <li><b>«Интервью без AI-копилотов»</b> — почему cheating — стратегическая ошибка.</li>
+          <li><b>Комбо:</b> 1,5-часовая лекция → 4-недельный поток с менторингом.</li>
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- 14. Formats -->
-<section><span class="anchor" id="formats"></span>
+<!-- 22 SOURCES + END -->
+<section class="slide dark" data-title="Источники и конец">
   <div class="wrap">
-    <div class="seclabel"><b>14</b> · Возможные форматы для Сборки</div>
-    <h2>Как материал поворачивается в продукт</h2>
-    <ol>
-      <li><b>«Поиск работы 2026: правила игры изменились»</b> — обзорная лекция на 60–90 минут с Q&amp;A. Хорошо как воронка к платным форматам.</li>
-      <li><b>«Рынок работодателя: как продаваться, когда тебя выбирают»</b> — для middle/senior, у которых не получается перейти. Про позиционирование, нетворк, ROI-формулировки.</li>
-      <li><b>«AI как ко-пилот в поиске работы»</b> — практический воркшоп с разбором тулов: LoopCV, AIApply, Careerflow + промптинг ChatGPT/Claude. Сильный lead magnet.</li>
-      <li><b>«Джуниоры в 2026: как не остаться без точки входа»</b> — отдельный сегмент, очень больной, очень эмоциональный.</li>
-      <li><b>«Антифрод-гид для соискателя»</b> — про ghost jobs, scams, как не потратить 200 часов впустую.</li>
-      <li><b>«Интервью без AI-копилотов»</b> — почему cheating — стратегическая ошибка, и как готовиться по-настоящему.</li>
-      <li><b>Комбо-формат:</b> полуторачасовая лекция → 4-недельный практический поток. Лекция = бесплатный вход, поток = с разбором кейсов и менторингом.</li>
-    </ol>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="seclabel" style="color:rgba(255,255,255,.5)"><b style="color:var(--accent-2)">15</b> · Источники и proof-check</div>
+    <div class="seclabel"><b>21</b> · Источники и proof-check</div>
     <h2>Из чего собран материал</h2>
     <div class="src">
       <div>
         <h4>Россия</h4>
         <ul>
-          <li><a href="https://hh.ru/article/prognoz-chto-budet-proiskhodit-na-rynke-truda-v-2026-godu">HH.ru: прогноз 2026</a></li>
-          <li><a href="https://stats.hh.ru/">HH.Индекс — свежие отчёты</a></li>
+          <li><a href="https://hh.ru/article/prognoz-chto-budet-proiskhodit-na-rynke-truda-v-2026-godu">HH.ru — прогноз 2026</a></li>
+          <li><a href="https://stats.hh.ru/">HH.Индекс</a></li>
           <li><a href="https://partner.market.yandex.ru/chtojournal/rynok-truda/">Яндекс/Маркет, март 2026</a></li>
-          <li><a href="https://vc.ru/hr/2722674-indeks-hh-izmeneniya-na-rynke-truda-i-prognozy-na-2026-god">vc.ru: подробный анализ Индекса HH</a></li>
-          <li><a href="https://www.rambler.ru/pro/rabota/55843833">Рамблер тренды 2026</a></li>
+          <li><a href="https://vc.ru/hr/2722674-indeks-hh-izmeneniya-na-rynke-truda-i-prognozy-na-2026-god">vc.ru: анализ Индекса HH</a></li>
         </ul>
         <h4>Глобальный AI-эффект</h4>
         <ul>
@@ -852,47 +807,148 @@
           <li><a href="https://www.imf.org/en/blogs/articles/2026/01/14/new-skills-and-ai-are-reshaping-the-future-of-work">IMF январь 2026</a></li>
           <li>WEF Future of Jobs Report 2025</li>
           <li>PwC 2025 Global AI Jobs Barometer</li>
-          <li>Stanford «Canaries in the Coal Mine» (август 2025)</li>
+          <li>Stanford «Canaries in the Coal Mine»</li>
           <li><a href="https://www.kornferry.com/insights/featured-topics/talent-recruitment-articles/ai-in-recruitment-trends">Korn Ferry TA Trends 2026</a></li>
         </ul>
       </div>
       <div>
-        <h4>Ghost jobs</h4>
+        <h4>Ghost jobs &amp; cheating</h4>
         <ul>
           <li><a href="https://www.entrepreneur.com/business-news/one-quarter-of-jobs-posted-online-are-fake-ghost-jobs-study/496683">Entrepreneur: 25% jobs are fake</a></li>
-          <li><a href="https://www.metaintro.com/blog/ghost-jobs-fake-job-listings-hiring-market-2026">Metaintro: ghost jobs guide</a></li>
+          <li><a href="https://www.metaintro.com/blog/ghost-jobs-fake-job-listings-hiring-market-2026">Metaintro: ghost jobs</a></li>
           <li><a href="https://www.foundrole.com/blog/ghost-jobs-are-you-applying-to-jobs-that-don-t-exist">FoundRole guide</a></li>
-        </ul>
-        <h4>Cheating-индустрия</h4>
-        <ul>
           <li><a href="https://en.wikipedia.org/wiki/Cluely">Cluely — Wikipedia</a></li>
           <li><a href="https://builtin.com/articles/ai-job-interview-cheating-debate">Builtin (Feb 2026)</a></li>
           <li><a href="https://fabrichq.ai/blogs/interview-cheating-in-2026-the-rise-of-ai-tools-like-cluely-and-interview-coder">Fabric (Jan 2026)</a></li>
         </ul>
-        <h4>Layoffs trackers</h4>
+        <h4>Layoffs &amp; апрель-2026</h4>
         <ul>
           <li><a href="https://www.trueup.io/layoffs">TrueUp Layoffs Tracker</a></li>
           <li><a href="https://news.crunchbase.com/startups/tech-layoffs/">Crunchbase tech layoffs</a></li>
-          <li><a href="https://skillsyncer.com/layoffs-tracker">SkillSyncer Layoffs</a></li>
-          <li><a href="https://intellizence.com/insights/layoff-downsizing/major-companies-that-announced-mass-layoffs/">Intellizence</a></li>
-        </ul>
-        <h4>Свежие апрель-2026</h4>
-        <ul>
           <li><a href="https://www.cnbc.com/2026/04/24/20k-job-cuts-at-meta-microsoft-raise-concern-of-ai-labor-crisis-.html">CNBC: Meta/Microsoft 24 апр</a></li>
           <li><a href="https://www.tomshardware.com/tech-industry/tech-industry-lays-off-nearly-80-000-employees-in-the-first-quarter-of-2026">Tom's Hardware: Q1 2026</a></li>
-          <li><a href="https://www.kore1.com/tech-layoffs-2026/">KORE1: tech layoffs 2026</a></li>
+        </ul>
+        <h4>Артефакты</h4>
+        <ul>
+          <li><a href="./sborka_2026_pop_art.pptx">Скачать PPTX-слайды (pop-art)</a></li>
+          <li><a href="https://github.com/TimmyZinin/job-market-2026">Репозиторий на GitHub</a></li>
         </ul>
       </div>
     </div>
-    <hr style="border-top:1px solid rgba(255,255,255,.15);margin:48px 0 24px"/>
     <div class="meta">
       <div><b>Автор:</b> Tim Zinin</div>
       <div><b>Сборка:</b> <a href="https://sborka.work">sborka.work</a></div>
       <div><b>Дата сборки:</b> 27 апреля 2026</div>
-      <div><b>Репо:</b> <a href="https://github.com/TimmyZinin/job-market-2026">github.com/TimmyZinin/job-market-2026</a></div>
     </div>
   </div>
-</footer>
+</section>
 
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="navbar">
+  <button class="navbtn" id="prev" aria-label="Предыдущий слайд"><span class="ar">←</span> <span class="label-hide">Назад</span></button>
+  <div class="counter"><span id="cur">01</span><span class="of">/</span><span class="total" id="tot">22</span></div>
+  <button class="navbtn" id="next" aria-label="Следующий слайд"><span class="label-hide">Далее</span> <span class="ar">→</span></button>
+</nav>
+
+<!-- OVERVIEW -->
+<div class="overview" id="ov">
+  <button class="close" id="ov-close">Закрыть ✕</button>
+  <h2>Все слайды</h2>
+  <div class="grid" id="ov-grid"></div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  const tot = document.getElementById('tot');
+  const cur = document.getElementById('cur');
+  const prog = document.getElementById('prog');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const ov = document.getElementById('ov');
+  const ovOpen = document.getElementById('ov-open');
+  const ovClose = document.getElementById('ov-close');
+  const ovGrid = document.getElementById('ov-grid');
+
+  tot.textContent = String(total).padStart(2,'0');
+
+  // build overview
+  slides.forEach((s,i) => {
+    const b = document.createElement('button');
+    b.className = 'ov';
+    b.innerHTML = `<div class="nn">${String(i+1).padStart(2,'0')}</div><div class="tt">${s.dataset.title || ''}</div>`;
+    b.addEventListener('click', () => { go(i); closeOverview(); });
+    ovGrid.appendChild(b);
+  });
+
+  let idx = 0;
+  function parseHash(){
+    const m = (location.hash || '').match(/#\/(\d+)/);
+    if(m){ const n = parseInt(m[1],10) - 1; if(n >= 0 && n < total) return n; }
+    return 0;
+  }
+  function setHash(i){
+    const want = '#/'+(i+1);
+    if(location.hash !== want) history.replaceState(null,'',want);
+  }
+  function go(i){
+    idx = Math.max(0, Math.min(total-1, i));
+    slides.forEach((s,j) => s.classList.toggle('active', j === idx));
+    cur.textContent = String(idx+1).padStart(2,'0');
+    prog.style.width = ((idx+1)/total*100) + '%';
+    prev.disabled = idx === 0;
+    next.disabled = idx === total-1;
+    setHash(idx);
+    // scroll active slide back to top
+    slides[idx].scrollTop = 0;
+  }
+
+  function nextS(){ if(idx < total-1) go(idx+1); }
+  function prevS(){ if(idx > 0) go(idx-1); }
+
+  prev.addEventListener('click', prevS);
+  next.addEventListener('click', nextS);
+
+  document.addEventListener('keydown', (e) => {
+    if(ov.classList.contains('open')){
+      if(e.key === 'Escape') closeOverview();
+      return;
+    }
+    // ignore when typing in inputs (none here, but safe)
+    const tag = (e.target.tagName||'').toLowerCase();
+    if(tag === 'input' || tag === 'textarea') return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){ e.preventDefault(); nextS(); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); prevS(); }
+    else if(e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if(e.key === 'End'){ e.preventDefault(); go(total-1); }
+    else if(e.key === 'Escape'){ openOverview(); }
+  });
+
+  // touch swipe
+  let tsx = 0, tsy = 0;
+  document.addEventListener('touchstart', (e) => {
+    tsx = e.touches[0].clientX; tsy = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - tsx;
+    const dy = e.changedTouches[0].clientY - tsy;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){
+      if(dx < 0) nextS(); else prevS();
+    }
+  }, {passive:true});
+
+  function openOverview(){ ov.classList.add('open'); }
+  function closeOverview(){ ov.classList.remove('open'); }
+  ovOpen.addEventListener('click', openOverview);
+  ovClose.addEventListener('click', closeOverview);
+
+  window.addEventListener('hashchange', () => go(parseHash()));
+
+  go(parseHash());
+})();
+</script>
 </body>
 </html>

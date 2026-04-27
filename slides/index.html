@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Рынок труда 2026 — оригинальные слайды (PPTX) / Сборка</title>
+<meta name="description" content="Оригинальная pop-art презентация Tim Zinin для лекции в Сборке — рендер исходного PPTX." />
+<meta name="theme-color" content="#f4eee0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4eee0;
+    --paper:#fbf6e9;
+    --ink:#1a120b;
+    --mute:#5a4a36;
+    --accent:#e0354b;
+    --accent-2:#f4b400;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--ink);color:var(--bg);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;height:100%}
+  a{color:var(--accent-2);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+  a:hover{color:var(--bg)}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 22px;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:5}
+  .brand{font-family:"Fraunces",serif;font-weight:900;font-size:18px;letter-spacing:-.01em}
+  .brand b{color:var(--accent)}
+  .brand .sub{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-left:10px;font-weight:500}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{appearance:none;border:1.5px solid var(--bg);background:transparent;color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s}
+  .btn:hover{background:var(--bg);color:var(--ink)}
+  .btn.primary{background:var(--accent-2);color:var(--ink);border-color:var(--accent-2)}
+  .btn.primary:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+  main{position:relative;height:calc(100vh - 60px);background:#0a0805}
+  iframe{width:100%;height:100%;border:0;display:block;background:#0a0805}
+
+  .fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:32px;text-align:center}
+  .fallback.show{display:flex}
+  .fallback .box{max-width:520px;background:var(--bg);color:var(--ink);border:1.5px solid var(--bg);padding:36px;font-family:"Inter",sans-serif}
+  .fallback h2{font-family:"Fraunces",serif;font-weight:900;font-size:28px;margin:0 0 14px;letter-spacing:-.015em;line-height:1.1}
+  .fallback p{margin:0 0 18px;font-size:15px;line-height:1.5;color:var(--mute)}
+
+  .hint{position:absolute;left:0;right:0;bottom:0;padding:8px 16px;background:rgba(0,0,0,.6);color:rgba(255,255,255,.7);font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;pointer-events:none;backdrop-filter:blur(6px)}
+
+  @media(max-width:680px){
+    header{flex-wrap:wrap;gap:10px}
+    .brand .sub{display:none}
+    .btn{font-size:11px;padding:7px 11px;letter-spacing:.1em}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Рынок труда <b>2026</b> · Сборка <span class="sub">оригинальная PPTX-презентация</span></div>
+  <div class="actions">
+    <a class="btn" href="../">← к лекции</a>
+    <a class="btn primary" href="../sborka_2026_pop_art.pptx" download>Скачать .pptx</a>
+  </div>
+</header>
+
+<main>
+  <iframe id="viewer"
+          src="https://view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Ftimzinin.com%2Fjob-market-2026%2Fsborka_2026_pop_art.pptx&wdAr=1.7777777777777777"
+          title="Презентация: Рынок труда 2026"
+          allow="fullscreen"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+  <div class="fallback" id="fb">
+    <div class="box">
+      <h2>Презентация не загрузилась</h2>
+      <p>Microsoft Office Online viewer временно недоступен. Скачайте .pptx и откройте локально в Keynote / PowerPoint / Google Slides.</p>
+      <a class="btn primary" href="../sborka_2026_pop_art.pptx" download>Скачать .pptx (619 КБ)</a>
+    </div>
+  </div>
+  <div class="hint">Навигация: стрелками внутри плеера · полноэкранный режим — кнопка ⛶ в правом нижнем углу</div>
+</main>
+
+<script>
+  // If the iframe fails to load within 12s, show fallback.
+  const iframe = document.getElementById('viewer');
+  const fb = document.getElementById('fb');
+  let loaded = false;
+  iframe.addEventListener('load', () => { loaded = true; });
+  setTimeout(() => { if(!loaded) fb.classList.add('show'); }, 12000);
+</script>
+</body>
+</html>
